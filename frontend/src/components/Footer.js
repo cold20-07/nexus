@@ -106,6 +106,9 @@ const Footer = () => {
             <a href="#" className="text-slate-500 hover:text-teal-400 transition-colors">
               Terms
             </a>
+            <Link to="/admin/login" className="text-slate-700 hover:text-slate-600 transition-colors">
+              •
+            </Link>
           </div>
         </div>
       </div>
