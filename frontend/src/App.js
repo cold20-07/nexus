@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { HelmetProvider } from 'react-helmet-async';
 import { Toaster } from 'sonner';
 import Home from './pages/Home';
 import Services from './pages/Services';
@@ -7,13 +8,16 @@ import Blog from './pages/Blog';
 import BlogPost from './pages/BlogPost';
 import About from './pages/About';
 import Contact from './pages/Contact';
+import Forms from './pages/Forms';
 import AidAttendanceForm from './pages/AidAttendanceForm';
+import IntakeForm from './pages/IntakeForm';
 import Layout from './components/Layout';
 
 // Admin imports
 import AdminLogin from './pages/admin/Login';
 import AdminDashboard from './pages/admin/Dashboard';
 import AdminContacts from './pages/admin/Contacts';
+import AdminFormSubmissions from './pages/admin/FormSubmissions';
 import AdminServices from './pages/admin/Services';
 import AdminBlog from './pages/admin/Blog';
 import AdminServiceForm from './pages/admin/ServiceForm';
@@ -24,9 +28,10 @@ import './App.css';
 
 function App() {
   return (
-    <BrowserRouter>
-      <Toaster position="top-right" richColors />
-      <Routes>
+    <HelmetProvider>
+      <BrowserRouter>
+        <Toaster position="top-right" richColors />
+        <Routes>
         {/* Public Routes */}
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
@@ -36,6 +41,8 @@ function App() {
           <Route path="blog/:slug" element={<BlogPost />} />
           <Route path="about" element={<About />} />
           <Route path="contact" element={<Contact />} />
+          <Route path="forms" element={<Forms />} />
+          <Route path="intake" element={<IntakeForm />} />
           <Route path="aid-attendance-form" element={<AidAttendanceForm />} />
         </Route>
 
@@ -54,6 +61,14 @@ function App() {
           element={
             <ProtectedRoute>
               <AdminContacts />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/form-submissions"
+          element={
+            <ProtectedRoute>
+              <AdminFormSubmissions />
             </ProtectedRoute>
           }
         />
@@ -105,8 +120,9 @@ function App() {
             </ProtectedRoute>
           }
         />
-      </Routes>
-    </BrowserRouter>
+        </Routes>
+      </BrowserRouter>
+    </HelmetProvider>
   );
 }
 

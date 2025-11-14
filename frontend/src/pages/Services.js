@@ -1,26 +1,21 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Award, CheckCircle, Shield, ArrowRight } from 'lucide-react';
+import { Award, CheckCircle, Shield, ArrowRight, FileText, Clipboard } from 'lucide-react';
 import { servicesApi } from '../lib/api';
+import SEO from '../components/SEO';
 
 const Services = () => {
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [dataSource, setDataSource] = useState('unknown');
-  const [apiError, setApiError] = useState(null);
 
   useEffect(() => {
     const fetchServices = async () => {
       try {
         const data = await servicesApi.getAll();
         setServices(data);
-        setDataSource('Supabase');
-        setApiError(null);
       } catch (error) {
         console.error('Error fetching services:', error);
-        setApiError(error.message);
         setServices([]);
-        setDataSource('Error');
       } finally {
         setLoading(false);
       }
@@ -28,12 +23,10 @@ const Services = () => {
     fetchServices();
   }, []);
 
-
-
   const getIconComponent = (iconName) => {
     const icons = {
-      'file-text': Shield,
-      'clipboard': Award,
+      'file-text': FileText,
+      'clipboard': Clipboard,
       'heart-pulse': CheckCircle,
       'users': Award,
       'lightbulb': Award,
@@ -44,138 +37,139 @@ const Services = () => {
   };
 
   return (
-    <div className="bg-slate-50 min-h-screen">
-      {/* Header */}
-      <section className="bg-gradient-to-br from-teal-600 to-emerald-600 py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl sm:text-5xl font-bold text-white mb-6">Our Services</h1>
-          <p className="text-xl text-teal-50 max-w-2xl mx-auto">
-            Claimant-specific medical evidence. Ethical, accurate, veteran-centered.
-          </p>
-        </div>
-      </section>
+    <>
+      <SEO
+        title="VA Medical Documentation Services"
+        description="Professional nexus letters, DBQs, Aid & Attendance evaluations, and medical consultations for VA disability claims. Licensed clinicians, 7-10 day turnaround."
+        keywords="VA nexus letter, DBQ evaluation, aid and attendance, C&P exam coaching, 1151 claim, veteran medical services"
+      />
 
-      {/* Services Grid */}
-      <section className="py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {loading ? (
-            <div className="text-center py-20">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600 mx-auto" />
+      <div className="relative min-h-screen overflow-hidden">
+        {/* Fixed Background Image with Glassmorphic Blur */}
+        <div className="fixed inset-0 z-0 overflow-hidden">
+          <div
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+            style={{
+              backgroundImage: 'url("/wavefillservicep.png")',
+              filter: 'blur(4px)',
+              transform: 'scale(1.1)',
+              width: '100%',
+              height: '100%'
+            }}
+          ></div>
+          <div className="absolute inset-0 bg-white/50"></div>
+        </div>
+
+        {/* Content */}
+        <div className="relative z-10">
+          {/* Hero Section */}
+          <section className="py-24">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+              <h1 className="text-5xl font-bold text-slate-900 mb-6">Our Services</h1>
+              <p className="text-xl text-slate-700 max-w-2xl mx-auto">
+                Professional medical documentation for your VA disability claim
+              </p>
             </div>
-          ) : apiError ? (
-            <div className="text-center py-20">
-              <div className="text-red-600 mb-4">Unable to load services</div>
-              <div className="text-slate-600">{apiError}</div>
-              <div className="mt-4">
-                <button 
-                  onClick={() => window.location.reload()} 
-                  className="bg-teal-600 text-white px-6 py-2 rounded-full hover:bg-teal-700"
-                >
-                  Try Again
-                </button>
+          </section>
+
+          {/* Services Grid */}
+          <section className="pb-24">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              {loading ? (
+                <div className="text-center py-20">
+                  <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600 mx-auto"></div>
+                  <p className="mt-4 text-slate-600">Loading services...</p>
+                </div>
+              ) : services.length === 0 ? (
+                <div className="text-center py-20">
+                  <p className="text-slate-600 text-lg">No services available at the moment.</p>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  {services.map((service) => {
+                    const IconComponent = getIconComponent(service.icon);
+                    return (
+                      <div
+                        key={service.id}
+                        className="bg-white/80 backdrop-blur-xl rounded-2xl p-8 border border-white/40 shadow-2xl hover:shadow-3xl transition-all hover:scale-105 group"
+                      >
+                        {/* Icon */}
+                        <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center mb-6 shadow-lg group-hover:scale-110 transition-transform">
+                          <IconComponent className="w-8 h-8 text-white" />
+                        </div>
+
+                        {/* Title */}
+                        <h3 className="text-2xl font-bold text-slate-900 mb-3">{service.title}</h3>
+
+                        {/* Description */}
+                        <div className="text-slate-600 mb-6 leading-relaxed whitespace-pre-wrap">
+                          {service.short_description.split('\n').map((line, i) => {
+                            return line.trim() ? <p key={i} className="mb-2">{line}</p> : <br key={i} />;
+                          })}
+                        </div>
+
+                        {/* Features */}
+                        {service.features && service.features.length > 0 && (
+                          <div className="space-y-3 mb-6">
+                            {service.features.slice(0, 3).map((feature, idx) => (
+                              <div key={idx} className="flex items-start space-x-2">
+                                <CheckCircle className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" />
+                                <span className="text-sm text-slate-700">{feature}</span>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+
+                        {/* Pricing */}
+                        {service.pricing && (
+                          <div className="mb-6 p-4 bg-blue-50/80 backdrop-blur-sm rounded-lg border border-blue-100/50">
+                            <div className="text-sm text-slate-600 mb-1">Starting at</div>
+                            <div className="text-3xl font-bold text-blue-600">${service.pricing.base_price}</div>
+                          </div>
+                        )}
+
+                        {/* CTA */}
+                        <Link
+                          to={`/services/${service.slug}`}
+                          className="inline-flex items-center space-x-2 text-blue-600 font-semibold hover:text-blue-700 transition-colors group-hover:translate-x-1"
+                        >
+                          <span>Learn More</span>
+                          <ArrowRight className="w-5 h-5" />
+                        </Link>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          </section>
+
+          {/* CTA Section */}
+          <section className="pb-24">
+            <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-600 rounded-3xl p-12 text-center shadow-2xl relative overflow-hidden">
+                <div className="absolute inset-0 bg-white/5 backdrop-blur-sm"></div>
+                <div className="relative z-10">
+                  <h2 className="text-4xl font-bold text-white mb-6">
+                    Ready to Get Started?
+                  </h2>
+                  <p className="text-xl text-white/90 mb-8">
+                    Contact us for a free consultation and let us help strengthen your VA claim
+                  </p>
+                  <Link
+                    to="/contact"
+                    className="inline-flex items-center space-x-2 bg-white text-blue-600 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-slate-50 transition-all hover:scale-105 shadow-xl"
+                  >
+                    <span>Contact Us</span>
+                    <ArrowRight className="w-5 h-5" />
+                  </Link>
+                </div>
               </div>
             </div>
-          ) : services.length === 0 ? (
-            <div className="text-center py-20">
-              <div className="text-slate-600">No services available at this time</div>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {services.map((service) => {
-                const IconComponent = getIconComponent(service.icon);
-                return (
-                  <div
-                    key={service.id}
-                    data-testid={`service-${service.slug}`}
-                    className="bg-white rounded-2xl overflow-hidden border-2 border-slate-200 hover:border-teal-500 hover:shadow-xl transition-all group"
-                  >
-                    <div className="p-8">
-                      <div className="w-14 h-14 bg-teal-100 rounded-xl flex items-center justify-center mb-6 group-hover:bg-teal-600 transition-colors">
-                        <IconComponent className="w-7 h-7 text-teal-600 group-hover:text-white transition-colors" />
-                      </div>
-                      <h3 className="text-2xl font-bold text-slate-900 mb-3">{service.title}</h3>
-                      <p className="text-slate-600 mb-6">{service.short_description}</p>
-                      
-                      <div className="space-y-3 mb-6">
-                        {service.features.map((feature, idx) => (
-                          <div key={idx} className="flex items-start space-x-2">
-                            <CheckCircle className="w-5 h-5 text-teal-600 mt-0.5 flex-shrink-0" />
-                            <span className="text-sm text-slate-700">{feature}</span>
-                          </div>
-                        ))}
-                      </div>
-
-                      <div className="flex items-center justify-between pt-6 border-t border-slate-200">
-                        <div>
-                          <div className="text-2xl font-bold text-slate-900">
-                            ${service.base_price_usd?.toLocaleString() || 'N/A'}
-                          </div>
-                          <div className="text-sm text-slate-500">{service.duration}</div>
-                        </div>
-                        <div className="flex space-x-2">
-                          <Link
-                            to={`/services/${service.slug}`}
-                            data-testid={`view-service-${service.slug}`}
-                            className="inline-flex items-center space-x-2 bg-teal-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-teal-700 transition-all hover:shadow-lg transform hover:-translate-y-0.5"
-                          >
-                            <span>View Details</span>
-                            <ArrowRight className="w-4 h-4" />
-                          </Link>
-                          {service.slug === 'aid-attendance' && (
-                            <Link
-                              to="/aid-attendance-form"
-                              data-testid="aid-attendance-form-link"
-                              className="inline-flex items-center space-x-2 bg-emerald-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-emerald-700 transition-all hover:shadow-lg transform hover:-translate-y-0.5"
-                            >
-                              <span>Start Form</span>
-                            </Link>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          )}
+          </section>
         </div>
-      </section>
-
-      {/* FAQ Section */}
-      <section className="py-16 bg-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-slate-900 mb-8 text-center">Frequently Asked Questions</h2>
-          <div className="space-y-4">
-            {[
-              {
-                q: 'What is a nexus letter?',
-                a: 'A nexus letter is a medical document that establishes the connection between your military service and your current disability.',
-              },
-              {
-                q: 'Do you complete VA DBQs?',
-                a: 'Yes, we complete public DBQs that are currently accepted by the VA for various conditions.',
-              },
-              {
-                q: 'Do you guarantee outcomes?',
-                a: 'While we provide high-quality medical evidence, we cannot guarantee VA claim approvals as final decisions rest with the VA.',
-              },
-              {
-                q: 'Can you help with Aid & Attendance?',
-                a: 'Yes, we provide complete physician evaluations and documentation for VA Form 21-2680.',
-              },
-            ].map((faq, idx) => (
-              <details key={idx} className="bg-slate-50 rounded-xl p-6 group">
-                <summary className="font-semibold text-slate-900 cursor-pointer list-none flex justify-between items-center">
-                  <span>{faq.q}</span>
-                  <span className="text-teal-600 group-open:rotate-180 transition-transform">▼</span>
-                </summary>
-                <p className="mt-4 text-slate-600">{faq.a}</p>
-              </details>
-            ))}
-          </div>
-        </div>
-      </section>
-    </div>
+      </div>
+    </>
   );
 };
 

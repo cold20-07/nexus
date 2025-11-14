@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, Clock, Calendar, User } from 'lucide-react';
 import { blogApi } from '../lib/api';
+import SEO from '../components/SEO';
 
 const BlogPost = () => {
   const { slug } = useParams();
@@ -25,7 +26,7 @@ const BlogPost = () => {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600" />
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600" />
       </div>
     );
   }
@@ -35,7 +36,7 @@ const BlogPost = () => {
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <h2 className="text-2xl font-bold text-slate-900 mb-4">Post not found</h2>
-          <Link to="/blog" className="text-teal-600 hover:text-teal-700">
+          <Link to="/blog" className="text-indigo-600 hover:text-indigo-700">
             Back to Blog
           </Link>
         </div>
@@ -43,23 +44,59 @@ const BlogPost = () => {
     );
   }
 
+  // Structured data for blog article
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": post.title,
+    "description": post.excerpt,
+    "author": {
+      "@type": "Person",
+      "name": post.author_name
+    },
+    "datePublished": post.published_at,
+    "dateModified": post.updated_at || post.published_at,
+    "publisher": {
+      "@type": "Organization",
+      "name": "Military Disability Nexus",
+      "logo": {
+        "@type": "ImageObject",
+        "url": typeof window !== 'undefined' ? `${window.location.origin}/logo.png` : ''
+      }
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": typeof window !== 'undefined' ? window.location.href : ''
+    }
+  };
+
   return (
-    <div className="bg-slate-50 min-h-screen">
+    <>
+      <SEO 
+        title={post.title}
+        description={post.excerpt}
+        keywords={`${post.category}, VA disability, ${post.tags?.join(', ')}`}
+        article={true}
+        publishedTime={post.published_at}
+        author={post.author_name}
+        structuredData={structuredData}
+      />
+      <div className="bg-slate-50 min-h-screen">
       {/* Hero */}
-      <section className="bg-gradient-to-br from-teal-600 to-emerald-600 py-16">
+      <section className="bg-gradient-to-br from-indigo-600 to-indigo-700 py-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <Link
             to="/blog"
-            className="inline-flex items-center space-x-2 text-teal-50 hover:text-white mb-6 transition-colors"
+            className="inline-flex items-center space-x-2 text-indigo-50 hover:text-white mb-6 transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
             <span>Back to Blog</span>
           </Link>
-          <div className="inline-block bg-teal-500 text-white px-4 py-2 rounded-full text-sm font-semibold mb-4">
+          <div className="inline-block bg-indigo-500 text-white px-4 py-2 rounded-full text-sm font-semibold mb-4">
             {post.category}
           </div>
           <h1 className="text-4xl sm:text-5xl font-bold text-white mb-6">{post.title}</h1>
-          <div className="flex flex-wrap items-center gap-6 text-teal-50">
+          <div className="flex flex-wrap items-center gap-6 text-indigo-50">
             <div className="flex items-center space-x-2">
               <User className="w-5 h-5" />
               <span>{post.author_name}</span>
@@ -100,22 +137,23 @@ const BlogPost = () => {
         )}
 
         {/* CTA */}
-        <div className="mt-12 bg-gradient-to-br from-teal-600 to-emerald-600 rounded-2xl p-8 text-center">
+        <div className="mt-12 bg-gradient-to-br from-indigo-600 to-indigo-700 rounded-2xl p-8 text-center">
           <h3 className="text-2xl font-bold text-white mb-4">
             Need help with your VA claim?
           </h3>
-          <p className="text-teal-50 mb-6">
+          <p className="text-indigo-50 mb-6">
             Get expert guidance and documentation from our licensed clinicians
           </p>
           <Link
             to="/contact"
-            className="inline-block bg-white text-teal-600 px-8 py-3 rounded-full font-semibold hover:bg-slate-50 transition-colors"
+            className="inline-block bg-white text-indigo-600 px-8 py-3 rounded-full font-semibold hover:bg-slate-50 transition-colors"
           >
             Get Free Consultation
           </Link>
         </div>
       </article>
-    </div>
+      </div>
+    </>
   );
 };
 

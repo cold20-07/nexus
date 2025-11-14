@@ -116,7 +116,7 @@ const FileList = ({ contactId = null, refreshTrigger = 0 }) => {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-8">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-teal-600"></div>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
         <span className="ml-2 text-slate-600">Loading files...</span>
       </div>
     );
@@ -128,7 +128,7 @@ const FileList = ({ contactId = null, refreshTrigger = 0 }) => {
         <div className="text-red-600 mb-2">{error}</div>
         <button 
           onClick={fetchFiles}
-          className="text-teal-600 hover:text-teal-700 font-medium"
+          className="text-indigo-600 hover:text-indigo-700 font-medium"
         >
           Try again
         </button>
@@ -153,7 +153,7 @@ const FileList = ({ contactId = null, refreshTrigger = 0 }) => {
         </h3>
         <button
           onClick={fetchFiles}
-          className="text-sm text-teal-600 hover:text-teal-700 font-medium"
+          className="text-sm text-indigo-600 hover:text-indigo-700 font-medium"
         >
           Refresh
         </button>
@@ -201,7 +201,7 @@ const FileList = ({ contactId = null, refreshTrigger = 0 }) => {
                       </button>
                       <button
                         onClick={() => downloadFile(file.id, file.original_filename, file.storage_path)}
-                        className="p-1 text-slate-400 hover:text-teal-600 rounded"
+                        className="p-1 text-slate-400 hover:text-indigo-600 rounded"
                         title="Download"
                       >
                         <Download className="w-4 h-4" />

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { CheckCircle, ArrowLeft, Clock, DollarSign } from 'lucide-react';
 import { servicesApi } from '../lib/api';
+import SEO from '../components/SEO';
 import {
   Accordion,
   AccordionContent,
@@ -17,7 +18,9 @@ const ServiceDetail = () => {
   useEffect(() => {
     const fetchService = async () => {
       try {
-        const data = await servicesApi.getBySlug(slug);
+        // Clean the slug - take only the first part before any comma
+        const cleanSlug = slug.split(',')[0].trim();
+        const data = await servicesApi.getBySlug(cleanSlug);
         setService(data);
       } catch (error) {
         console.error('Error fetching service:', error);
@@ -32,7 +35,7 @@ const ServiceDetail = () => {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600" />
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600" />
       </div>
     );
   }
@@ -44,7 +47,7 @@ const ServiceDetail = () => {
           <h2 className="text-2xl font-bold text-slate-900 mb-4">Service not found</h2>
           <p className="text-slate-600 mb-4">The requested service could not be loaded.</p>
           <div className="space-x-4">
-            <Link to="/services" className="text-teal-600 hover:text-teal-700">
+            <Link to="/services" className="text-indigo-600 hover:text-indigo-700">
               Back to Services
             </Link>
             <button 
@@ -59,20 +62,46 @@ const ServiceDetail = () => {
     );
   }
 
+  // Structured data for service
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": service.title,
+    "description": service.short_description,
+    "provider": {
+      "@type": "Organization",
+      "name": "Military Disability Nexus",
+      "url": typeof window !== 'undefined' ? window.location.origin : ''
+    },
+    "serviceType": service.category,
+    "offers": {
+      "@type": "Offer",
+      "price": service.base_price_usd,
+      "priceCurrency": "USD"
+    }
+  };
+
   return (
-    <div className="bg-slate-50 min-h-screen">
+    <>
+      <SEO 
+        title={service.title}
+        description={service.short_description}
+        keywords={`${service.title}, ${service.category}, VA disability, medical documentation`}
+        structuredData={structuredData}
+      />
+      <div className="bg-slate-50 min-h-screen">
       {/* Header */}
-      <section className="bg-gradient-to-br from-teal-600 to-emerald-600 py-16">
+      <section className="bg-gradient-to-br from-indigo-600 to-indigo-700 py-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <Link
             to="/services"
-            className="inline-flex items-center space-x-2 text-teal-50 hover:text-white mb-6 transition-colors"
+            className="inline-flex items-center space-x-2 text-indigo-50 hover:text-white mb-6 transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
             <span>Back to Services</span>
           </Link>
           <h1 className="text-4xl sm:text-5xl font-bold text-white mb-4">{service.title}</h1>
-          <p className="text-xl text-teal-50">{service.short_description}</p>
+          <p className="text-xl text-indigo-50">{service.short_description}</p>
         </div>
       </section>
 
@@ -83,7 +112,21 @@ const ServiceDetail = () => {
             {/* Overview */}
             <div className="bg-white rounded-2xl p-8">
               <h2 className="text-2xl font-bold text-slate-900 mb-4">Overview</h2>
-              <p className="text-slate-700 leading-relaxed">{service.full_description}</p>
+              <div className="text-slate-700 leading-relaxed whitespace-pre-wrap">
+                {service.full_description.split('\n').map((line, i) => {
+                  // Check if line starts with bullet point markers
+                  if (line.trim().startsWith('•') || line.trim().startsWith('-') || line.trim().startsWith('*')) {
+                    return (
+                      <div key={i} className="flex gap-2 mb-2">
+                        <span className="flex-shrink-0">•</span>
+                        <span>{line.trim().replace(/^[•\-*]\s*/, '')}</span>
+                      </div>
+                    );
+                  }
+                  // Regular paragraph
+                  return line.trim() ? <p key={i} className="mb-3">{line}</p> : <br key={i} />;
+                })}
+              </div>
             </div>
 
             {/* What's Included */}
@@ -92,7 +135,7 @@ const ServiceDetail = () => {
               <div className="space-y-4">
                 {service.features.map((feature, idx) => (
                   <div key={idx} className="flex items-start space-x-3">
-                    <CheckCircle className="w-6 h-6 text-teal-600 mt-0.5 flex-shrink-0" />
+                    <CheckCircle className="w-6 h-6 text-indigo-600 mt-0.5 flex-shrink-0" />
                     <span className="text-slate-700">{feature}</span>
                   </div>
                 ))}
@@ -107,7 +150,21 @@ const ServiceDetail = () => {
                   <AccordionItem key={idx} value={`item-${idx}`}>
                     <AccordionTrigger className="text-left">{faq.question}</AccordionTrigger>
                     <AccordionContent>
-                      <p className="text-slate-600">{faq.answer}</p>
+                      <div className="text-slate-600 whitespace-pre-wrap">
+                        {faq.answer.split('\n').map((line, i) => {
+                          // Check if line starts with bullet point markers
+                          if (line.trim().startsWith('•') || line.trim().startsWith('-') || line.trim().startsWith('*')) {
+                            return (
+                              <div key={i} className="flex gap-2 mb-1">
+                                <span className="flex-shrink-0">•</span>
+                                <span>{line.trim().replace(/^[•\-*]\s*/, '')}</span>
+                              </div>
+                            );
+                          }
+                          // Regular paragraph
+                          return line.trim() ? <p key={i} className="mb-3">{line}</p> : <br key={i} />;
+                        })}
+                      </div>
                     </AccordionContent>
                   </AccordionItem>
                 ))}
@@ -117,7 +174,7 @@ const ServiceDetail = () => {
 
           {/* Sidebar */}
           <div className="lg:col-span-1">
-            <div className="sticky top-24 bg-white rounded-2xl p-8 border-2 border-teal-500 shadow-xl">
+            <div className="sticky top-24 bg-white rounded-2xl p-8 border-2 border-indigo-500 shadow-xl">
               <div className="mb-6">
                 <div className="text-sm text-slate-500 mb-2">Starting at</div>
                 <div className="text-4xl font-bold text-slate-900 mb-1">
@@ -127,12 +184,12 @@ const ServiceDetail = () => {
 
               <div className="space-y-4 mb-6">
                 <div className="flex items-center space-x-3 text-slate-700">
-                  <Clock className="w-5 h-5 text-teal-600" />
+                  <Clock className="w-5 h-5 text-indigo-600" />
                   <span>{service.duration}</span>
                 </div>
                 <div className="flex items-center space-x-3 text-slate-700">
-                  <CheckCircle className="w-5 h-5 text-teal-600" />
-                  <span>Licensed clinicians</span>
+                  <CheckCircle className="w-5 h-5 text-indigo-600" />
+                  <span>One on One consultation with Expert</span>
                 </div>
               </div>
 
@@ -141,14 +198,14 @@ const ServiceDetail = () => {
                   <Link
                     to="/aid-attendance-form"
                     data-testid="aid-attendance-form-button"
-                    className="w-full bg-teal-600 text-white px-6 py-4 rounded-full font-semibold text-center hover:bg-teal-700 transition-all hover:shadow-lg block"
+                    className="w-full bg-indigo-600 text-white px-6 py-4 rounded-full font-semibold text-center hover:bg-indigo-700 transition-all hover:shadow-lg block"
                   >
                     Complete Aid & Attendance Form
                   </Link>
                   <Link
                     to="/contact"
                     data-testid="book-now-button"
-                    className="w-full bg-white text-teal-600 px-6 py-4 rounded-full font-semibold text-center hover:bg-slate-50 transition-all border-2 border-teal-600 block"
+                    className="w-full bg-white text-indigo-600 px-6 py-4 rounded-full font-semibold text-center hover:bg-slate-50 transition-all border-2 border-indigo-600 block"
                   >
                     General Inquiry
                   </Link>
@@ -157,7 +214,7 @@ const ServiceDetail = () => {
                 <Link
                   to="/contact"
                   data-testid="book-now-button"
-                  className="w-full bg-teal-600 text-white px-6 py-4 rounded-full font-semibold text-center hover:bg-teal-700 transition-all hover:shadow-lg block"
+                  className="w-full bg-indigo-600 text-white px-6 py-4 rounded-full font-semibold text-center hover:bg-indigo-700 transition-all hover:shadow-lg block"
                 >
                   Book Now
                 </Link>
@@ -173,7 +230,8 @@ const ServiceDetail = () => {
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </>
   );
 };
 

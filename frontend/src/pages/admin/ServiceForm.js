@@ -170,7 +170,7 @@ const ServiceForm = () => {
                   value={formData.title}
                   onChange={handleTitleChange}
                   required
-                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 />
               </div>
 
@@ -184,7 +184,7 @@ const ServiceForm = () => {
                   value={formData.slug}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 />
                 <p className="text-xs text-slate-500 mt-1">Auto-generated from title</p>
               </div>
@@ -199,7 +199,7 @@ const ServiceForm = () => {
                   onChange={handleChange}
                   required
                   rows="2"
-                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 />
               </div>
 
@@ -213,7 +213,7 @@ const ServiceForm = () => {
                   onChange={handleChange}
                   required
                   rows="4"
-                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 />
               </div>
 
@@ -228,7 +228,7 @@ const ServiceForm = () => {
                     value={formData.base_price_usd}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                    className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   />
                 </div>
 
@@ -243,7 +243,7 @@ const ServiceForm = () => {
                     onChange={handleChange}
                     required
                     placeholder="e.g., 7-10 business days"
-                    className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                    className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   />
                 </div>
               </div>
@@ -257,7 +257,7 @@ const ServiceForm = () => {
                     name="category"
                     value={formData.category}
                     onChange={handleChange}
-                    className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                    className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   >
                     <option value="nexus-letter">Nexus Letter</option>
                     <option value="dbq">DBQ</option>
@@ -279,7 +279,7 @@ const ServiceForm = () => {
                     value={formData.icon}
                     onChange={handleChange}
                     placeholder="file-text"
-                    className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                    className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   />
                 </div>
 
@@ -292,7 +292,7 @@ const ServiceForm = () => {
                     name="display_order"
                     value={formData.display_order}
                     onChange={handleChange}
-                    className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                    className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   />
                 </div>
               </div>
@@ -303,7 +303,7 @@ const ServiceForm = () => {
                   name="is_active"
                   checked={formData.is_active}
                   onChange={handleChange}
-                  className="w-4 h-4 text-teal-600 border-slate-300 rounded focus:ring-teal-500"
+                  className="w-4 h-4 text-indigo-600 border-slate-300 rounded focus:ring-indigo-500"
                 />
                 <label className="ml-2 text-sm font-semibold text-slate-700">
                   Active (visible on website)
@@ -319,7 +319,7 @@ const ServiceForm = () => {
               <button
                 type="button"
                 onClick={addFeature}
-                className="text-teal-600 hover:text-teal-700 flex items-center space-x-1"
+                className="text-indigo-600 hover:text-indigo-700 flex items-center space-x-1"
               >
                 <Plus className="w-4 h-4" />
                 <span>Add Feature</span>
@@ -334,7 +334,7 @@ const ServiceForm = () => {
                     value={feature}
                     onChange={(e) => handleFeatureChange(index, e.target.value)}
                     placeholder="Feature description"
-                    className="flex-1 px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                    className="flex-1 px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   />
                   {formData.features.length > 1 && (
                     <button
@@ -357,7 +357,7 @@ const ServiceForm = () => {
               <button
                 type="button"
                 onClick={addFaq}
-                className="text-teal-600 hover:text-teal-700 flex items-center space-x-1"
+                className="text-indigo-600 hover:text-indigo-700 flex items-center space-x-1"
               >
                 <Plus className="w-4 h-4" />
                 <span>Add FAQ</span>
@@ -385,14 +385,14 @@ const ServiceForm = () => {
                       value={faq.question}
                       onChange={(e) => handleFaqChange(index, 'question', e.target.value)}
                       placeholder="Question"
-                      className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                      className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
                     />
                     <textarea
                       value={faq.answer}
                       onChange={(e) => handleFaqChange(index, 'answer', e.target.value)}
                       placeholder="Answer"
                       rows="2"
-                      className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                      className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
                     />
                   </div>
                 </div>
@@ -412,7 +412,7 @@ const ServiceForm = () => {
             <button
               type="submit"
               disabled={loading}
-              className="px-6 py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 disabled:opacity-50 flex items-center space-x-2"
+              className="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:opacity-50 flex items-center space-x-2"
             >
               <Save className="w-5 h-5" />
               <span>{loading ? 'Saving...' : isEdit ? 'Update Service' : 'Create Service'}</span>

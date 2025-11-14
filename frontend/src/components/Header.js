@@ -1,31 +1,54 @@
 import { Link, useLocation } from 'react-router-dom';
-import { Shield, Menu, X, Phone } from 'lucide-react';
-import { useState } from 'react';
+import { Menu, X } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import Logo from './Logo';
 
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const isActive = (path) => location.pathname === path;
 
   const navLinks = [
-    { name: 'Home', path: '/' },
     { name: 'Services', path: '/services' },
     { name: 'Blog', path: '/blog' },
-    { name: 'About', path: '/about' },
+    { name: 'Forms', path: '/forms' },
+    { name: 'About us', path: '/about' },
     { name: 'Contact', path: '/contact' },
   ];
 
   return (
-    <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-slate-200">
+    <header className={`sticky top-0 z-50 backdrop-blur-xl border-b transition-all duration-300 ${
+      scrolled 
+        ? 'bg-white/70 border-slate-200/50 shadow-lg' 
+        : 'bg-white/50 border-white/20'
+    }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-20">
+        <div className={`flex justify-between items-center transition-all duration-300 ${
+          scrolled ? 'h-16' : 'h-20'
+        }`}>
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-3 group" data-testid="header-logo">
-            <div className="w-10 h-10 bg-gradient-to-br from-teal-500 to-emerald-600 rounded-lg flex items-center justify-center transform group-hover:scale-105 transition-transform">
-              <Shield className="w-6 h-6 text-white" />
+          <Link to="/" className="flex items-center gap-3 group" data-testid="header-logo">
+            <Logo className={`transition-all duration-300 ${scrolled ? 'w-12 h-16' : 'w-16 h-20'}`} />
+            <div>
+              <div className={`font-bold text-slate-900 transition-all duration-300 ${
+                scrolled ? 'text-sm' : 'text-base'
+              }`}>Military Disability Nexus</div>
+              {!scrolled && (
+                <div className="text-xs text-slate-500 transition-opacity duration-300">
+                  Clinician-led expert medical opinions for VA disability claims
+                </div>
+              )}
             </div>
-            <span className="text-xl font-bold text-slate-900">Military Disability Nexus</span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -35,18 +58,13 @@ const Header = () => {
                 key={link.path}
                 to={link.path}
                 data-testid={`nav-${link.name.toLowerCase()}`}
-                className={`text-sm font-medium transition-colors relative group ${
+                className={`text-sm font-medium transition-colors ${
                   isActive(link.path)
-                    ? 'text-teal-600'
+                    ? 'text-slate-900'
                     : 'text-slate-600 hover:text-slate-900'
                 }`}
               >
                 {link.name}
-                <span
-                  className={`absolute -bottom-1 left-0 w-full h-0.5 bg-teal-600 transform origin-left transition-transform ${
-                    isActive(link.path) ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
-                  }`}
-                />
               </Link>
             ))}
           </nav>
@@ -55,10 +73,9 @@ const Header = () => {
           <Link
             to="/contact"
             data-testid="header-cta-button"
-            className="hidden md:flex items-center space-x-2 bg-teal-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-teal-700 transition-all hover:shadow-lg hover:shadow-teal-600/30 transform hover:-translate-y-0.5"
+            className="hidden md:flex items-center space-x-2 bg-blue-600 text-white px-6 py-2.5 rounded-lg font-semibold hover:bg-blue-700 transition-all"
           >
-            <Phone className="w-4 h-4" />
-            <span>Free Case Review</span>
+            <span>Book a Call</span>
           </Link>
 
           {/* Mobile Menu Button */}
@@ -83,7 +100,7 @@ const Header = () => {
                 onClick={() => setMobileMenuOpen(false)}
                 className={`block py-2 text-base font-medium transition-colors ${
                   isActive(link.path)
-                    ? 'text-teal-600'
+                    ? 'text-slate-900'
                     : 'text-slate-600 hover:text-slate-900'
                 }`}
               >
@@ -93,10 +110,9 @@ const Header = () => {
             <Link
               to="/contact"
               onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center justify-center space-x-2 bg-teal-600 text-white px-6 py-3 rounded-full font-semibold w-full"
+              className="flex items-center justify-center space-x-2 bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold w-full"
             >
-              <Phone className="w-4 h-4" />
-              <span>Free Case Review</span>
+              <span>Book a Call</span>
             </Link>
           </nav>
         </div>

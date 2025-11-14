@@ -27,6 +27,16 @@ export const servicesApi = {
     if (error) throw error;
     return data;
   },
+
+  async delete(id) {
+    const { error } = await supabase
+      .from('services')
+      .delete()
+      .eq('id', id);
+
+    if (error) throw error;
+    return true;
+  },
 };
 
 // ============================================
@@ -111,6 +121,30 @@ export const contactsApi = {
 };
 
 // ============================================
+// GENERIC FORM SUBMISSION
+// ============================================
+
+export const submitGenericForm = async (formData) => {
+  const { data, error } = await supabase
+    .from('contacts')
+    .insert([
+      {
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone || null,
+        subject: 'Generic Form Submission',
+        message: formData.additionalDetails || 'No additional details provided',
+        status: 'new',
+      },
+    ])
+    .select()
+    .single();
+
+  if (error) throw error;
+  return data;
+};
+
+// ============================================
 // FILE UPLOADS
 // ============================================
 
@@ -155,7 +189,7 @@ export const fileUploadApi = {
     return dbData;
   },
 
-  async getAll(contactId = null) {
+  async getAll(contactId = null, formSubmissionId = null) {
     let query = supabase
       .from('file_uploads')
       .select('*')
@@ -163,6 +197,10 @@ export const fileUploadApi = {
 
     if (contactId) {
       query = query.eq('contact_id', contactId);
+    }
+
+    if (formSubmissionId) {
+      query = query.eq('form_submission_id', formSubmissionId);
     }
 
     const { data, error } = await query;
@@ -209,9 +247,101 @@ export const fileUploadApi = {
   },
 };
 
+// ============================================
+// FORM SUBMISSIONS
+// ============================================
+
+export const formSubmissionsApi = {
+  async submit(formData) {
+    const { data, error } = await supabase
+      .from('form_submissions')
+      .insert([
+        {
+          form_type: formData.formType,
+          full_name: formData.fullName,
+          email: formData.email,
+          phone: formData.phone || null,
+          form_data: formData.formData || {},
+          requires_upload: formData.requiresUpload || false,
+          status: 'new',
+        },
+      ])
+      .select()
+      .single();
+
+    if (error) throw error;
+    return data;
+  },
+
+  async getById(id) {
+    const { data, error } = await supabase
+      .from('form_submissions')
+      .select('*')
+      .eq('id', id)
+      .single();
+
+    if (error) throw error;
+    return data;
+  },
+};
+
+// Update file upload to support form submissions
+const originalUpload = fileUploadApi.upload;
+fileUploadApi.upload = async function(file, contactIdOrFormId, category = 'other', isFormSubmission = false) {
+  const fileExt = file.name.split('.').pop();
+  const fileName = `${contactIdOrFormId}/${Date.now()}.${fileExt}`;
+
+  const validCategories = ['medical_record', 'insurance', 'identification', 'other'];
+  const validCategory = validCategories.includes(category) ? category : 'other';
+
+  const { data: storageData, error: storageError } = await supabase.storage
+    .from(STORAGE_BUCKETS.MEDICAL_DOCUMENTS)
+    .upload(fileName, file, {
+      cacheControl: '3600',
+      upsert: false,
+    });
+
+  if (storageError) throw storageError;
+
+  const insertData = {
+    original_filename: file.name,
+    storage_path: storageData.path,
+    file_size: file.size,
+    mime_type: file.type,
+    file_category: validCategory,
+    upload_status: 'uploaded',
+    is_phi: true,
+  };
+
+  if (isFormSubmission) {
+    insertData.form_submission_id = contactIdOrFormId;
+  } else {
+    insertData.contact_id = contactIdOrFormId;
+  }
+
+  const { data: dbData, error: dbError } = await supabase
+    .from('file_uploads')
+    .insert([insertData])
+    .select()
+    .single();
+
+  if (dbError) throw dbError;
+
+  // Update form submission to mark it has uploads
+  if (isFormSubmission) {
+    await supabase
+      .from('form_submissions')
+      .update({ has_uploads: true })
+      .eq('id', contactIdOrFormId);
+  }
+
+  return dbData;
+};
+
 export default {
   services: servicesApi,
   blog: blogApi,
   contacts: contactsApi,
   fileUpload: fileUploadApi,
+  formSubmissions: formSubmissionsApi,
 };

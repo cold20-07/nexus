@@ -48,6 +48,27 @@ const Services = () => {
     }
   };
 
+  const deleteService = async (id, title) => {
+    if (!window.confirm(`Are you sure you want to permanently delete "${title}"? This action cannot be undone.`)) {
+      return;
+    }
+
+    try {
+      const { error } = await supabase
+        .from('services')
+        .delete()
+        .eq('id', id);
+
+      if (error) throw error;
+
+      setServices(services.filter(s => s.id !== id));
+      toast.success('Service deleted successfully');
+    } catch (error) {
+      console.error('Error deleting service:', error);
+      toast.error('Failed to delete service');
+    }
+  };
+
   return (
     <AdminLayout>
       <div className="space-y-6">
@@ -58,7 +79,7 @@ const Services = () => {
           </div>
           <a
             href="/admin/services/new"
-            className="bg-teal-600 text-white px-4 py-2 rounded-lg hover:bg-teal-700 flex items-center space-x-2"
+            className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 flex items-center space-x-2"
           >
             <Plus className="w-5 h-5" />
             <span>Add Service</span>
@@ -67,7 +88,7 @@ const Services = () => {
 
         {loading ? (
           <div className="flex items-center justify-center py-12">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600" />
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600" />
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -87,7 +108,7 @@ const Services = () => {
                 <p className="text-sm text-slate-600 mb-4">{service.short_description}</p>
                 
                 <div className="flex items-center justify-between text-sm mb-4">
-                  <span className="font-semibold text-teal-600">${service.base_price_usd}</span>
+                  <span className="font-semibold text-indigo-600">${service.base_price_usd}</span>
                   <span className="text-slate-500">{service.duration}</span>
                 </div>
 
@@ -112,6 +133,13 @@ const Services = () => {
                   >
                     <Edit className="w-4 h-4" />
                   </a>
+                  <button
+                    onClick={() => deleteService(service.id, service.title)}
+                    className="p-2 border border-red-300 rounded-lg hover:bg-red-50 text-red-600"
+                    title="Delete service"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
                 </div>
               </div>
             ))}

@@ -5,8 +5,19 @@ import { contactsApi } from '../lib/api';
 import FileUpload from '../components/FileUpload';
 import FileList from '../components/FileList';
 
+const FORM_TYPES = [
+  { value: 'nexus_letter', label: 'Nexus Letter' },
+  { value: 'dbq', label: 'Disability Benefits Questionnaires (DBQs)' },
+  { value: '1151_claim', label: '1151 Claim (VA Medical Malpractice)' },
+  { value: 'aid_attendance', label: 'Aid & Attendance' },
+  { value: 'unsure', label: "I'm not sure what I need" },
+];
+
 const AidAttendanceForm = () => {
   const [formData, setFormData] = useState({
+    // Service Selection
+    formType: 'aid_attendance',
+    
     // Personal Information
     veteranName: '',
     veteranSSN: '',
@@ -99,7 +110,7 @@ const AidAttendanceForm = () => {
 
   if (submitted) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-teal-50 to-emerald-50 py-12">
+      <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-emerald-50 py-12">
         <div className="max-w-2xl mx-auto px-4">
           <div className="bg-white rounded-2xl p-8 shadow-lg text-center">
             <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
@@ -119,9 +130,9 @@ const AidAttendanceForm = () => {
               </div>
             )}
             
-            <div className="mt-8 p-4 bg-teal-50 rounded-lg">
+            <div className="mt-8 p-4 bg-indigo-50 rounded-lg">
               <h4 className="font-semibold text-teal-900 mb-2">What's Next?</h4>
-              <ul className="text-sm text-teal-700 space-y-1">
+              <ul className="text-sm text-indigo-700 space-y-1">
                 <li>• Medical review of your information</li>
                 <li>• Physician evaluation scheduling (if needed)</li>
                 <li>• Form 21-2680 completion</li>
@@ -135,11 +146,11 @@ const AidAttendanceForm = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-teal-50 to-emerald-50 py-12">
+    <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-emerald-50 py-12">
       <div className="max-w-4xl mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-12">
-          <Heart className="w-16 h-16 text-teal-600 mx-auto mb-4" />
+          <Heart className="w-16 h-16 text-indigo-600 mx-auto mb-4" />
           <h1 className="text-4xl font-bold text-slate-900 mb-4">Aid & Attendance Form</h1>
           <p className="text-xl text-slate-600 max-w-2xl mx-auto">
             Complete this form to begin your Aid & Attendance benefit evaluation. Our medical team will review your information and provide comprehensive documentation.
@@ -154,18 +165,43 @@ const AidAttendanceForm = () => {
               <p className="text-slate-600">Aid & Attendance (Form 21-2680) Evaluation</p>
             </div>
             <div className="text-right">
-              <div className="text-2xl font-bold text-teal-600">$2,000</div>
+              <div className="text-2xl font-bold text-indigo-600">$2,000</div>
               <div className="text-sm text-slate-500">7-10 business days</div>
-              <div className="text-sm text-teal-600">Rush: +$500 (36-48 hours)</div>
+              <div className="text-sm text-indigo-600">Rush: +$500 (36-48 hours)</div>
             </div>
           </div>
         </div>
 
         <form onSubmit={handleSubmit} className="bg-white rounded-2xl p-8 shadow-lg">
+          {/* Service Selection */}
+          <div className="mb-8">
+            <h3 className="text-xl font-bold text-slate-900 mb-6">
+              Service Type
+            </h3>
+            <div>
+              <label className="block text-sm font-semibold text-slate-700 mb-2">
+                What service do you need? *
+              </label>
+              <select
+                name="formType"
+                value={formData.formType}
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-indigo-500 focus:outline-none"
+              >
+                {FORM_TYPES.map(type => (
+                  <option key={type.value} value={type.value}>
+                    {type.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+
           {/* Personal Information */}
           <div className="mb-8">
             <h3 className="text-xl font-bold text-slate-900 mb-6 flex items-center">
-              <User className="w-5 h-5 mr-2 text-teal-600" />
+              <User className="w-5 h-5 mr-2 text-indigo-600" />
               Veteran Information
             </h3>
             
@@ -180,7 +216,7 @@ const AidAttendanceForm = () => {
                   value={formData.veteranName}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-teal-500 focus:outline-none"
+                  className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-indigo-500 focus:outline-none"
                   placeholder="Enter veteran's full name"
                 />
               </div>
@@ -195,7 +231,7 @@ const AidAttendanceForm = () => {
                   value={formData.veteranSSN}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-teal-500 focus:outline-none"
+                  className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-indigo-500 focus:outline-none"
                   placeholder="XXX-XX-XXXX"
                 />
               </div>
@@ -210,7 +246,7 @@ const AidAttendanceForm = () => {
                   value={formData.veteranDOB}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-teal-500 focus:outline-none"
+                  className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-indigo-500 focus:outline-none"
                 />
               </div>
               
@@ -224,7 +260,7 @@ const AidAttendanceForm = () => {
                   value={formData.veteranPhone}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-teal-500 focus:outline-none"
+                  className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-indigo-500 focus:outline-none"
                   placeholder="(555) 123-4567"
                 />
               </div>
@@ -239,7 +275,7 @@ const AidAttendanceForm = () => {
                   value={formData.veteranEmail}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-teal-500 focus:outline-none"
+                  className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-indigo-500 focus:outline-none"
                   placeholder="veteran@email.com"
                 />
               </div>
@@ -249,7 +285,7 @@ const AidAttendanceForm = () => {
           {/* Contact Person Information */}
           <div className="mb-8">
             <h3 className="text-xl font-bold text-slate-900 mb-6 flex items-center">
-              <Phone className="w-5 h-5 mr-2 text-teal-600" />
+              <Phone className="w-5 h-5 mr-2 text-indigo-600" />
               Contact Person (if different from veteran)
             </h3>
             
@@ -263,7 +299,7 @@ const AidAttendanceForm = () => {
                   name="contactName"
                   value={formData.contactName}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-teal-500 focus:outline-none"
+                  className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-indigo-500 focus:outline-none"
                   placeholder="Contact person's name"
                 />
               </div>
@@ -276,7 +312,7 @@ const AidAttendanceForm = () => {
                   name="contactRelationship"
                   value={formData.contactRelationship}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-teal-500 focus:outline-none"
+                  className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-indigo-500 focus:outline-none"
                 >
                   <option value="">Select relationship</option>
                   <option value="spouse">Spouse</option>
@@ -297,7 +333,7 @@ const AidAttendanceForm = () => {
                   name="contactPhone"
                   value={formData.contactPhone}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-teal-500 focus:outline-none"
+                  className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-indigo-500 focus:outline-none"
                   placeholder="(555) 123-4567"
                 />
               </div>
@@ -311,7 +347,7 @@ const AidAttendanceForm = () => {
                   name="contactEmail"
                   value={formData.contactEmail}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-teal-500 focus:outline-none"
+                  className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-indigo-500 focus:outline-none"
                   placeholder="contact@email.com"
                 />
               </div>
@@ -321,7 +357,7 @@ const AidAttendanceForm = () => {
           {/* Medical Information */}
           <div className="mb-8">
             <h3 className="text-xl font-bold text-slate-900 mb-6 flex items-center">
-              <FileText className="w-5 h-5 mr-2 text-teal-600" />
+              <FileText className="w-5 h-5 mr-2 text-indigo-600" />
               Medical Information
             </h3>
             
@@ -336,7 +372,7 @@ const AidAttendanceForm = () => {
                   value={formData.primaryDiagnosis}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-teal-500 focus:outline-none"
+                  className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-indigo-500 focus:outline-none"
                   placeholder="Primary medical condition requiring assistance"
                 />
               </div>
@@ -350,7 +386,7 @@ const AidAttendanceForm = () => {
                   value={formData.secondaryDiagnoses}
                   onChange={handleChange}
                   rows="3"
-                  className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-teal-500 focus:outline-none"
+                  className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-indigo-500 focus:outline-none"
                   placeholder="List any additional medical conditions"
                 />
               </div>
@@ -364,7 +400,7 @@ const AidAttendanceForm = () => {
                   value={formData.currentMedications}
                   onChange={handleChange}
                   rows="3"
-                  className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-teal-500 focus:outline-none"
+                  className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-indigo-500 focus:outline-none"
                   placeholder="List current medications and dosages"
                 />
               </div>
@@ -379,7 +415,7 @@ const AidAttendanceForm = () => {
                     name="physicianName"
                     value={formData.physicianName}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-teal-500 focus:outline-none"
+                    className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-indigo-500 focus:outline-none"
                     placeholder="Dr. Smith"
                   />
                 </div>
@@ -393,7 +429,7 @@ const AidAttendanceForm = () => {
                     name="physicianPhone"
                     value={formData.physicianPhone}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-teal-500 focus:outline-none"
+                    className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-indigo-500 focus:outline-none"
                     placeholder="(555) 123-4567"
                   />
                 </div>
@@ -408,7 +444,7 @@ const AidAttendanceForm = () => {
                   name="lastExamDate"
                   value={formData.lastExamDate}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-teal-500 focus:outline-none"
+                  className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-indigo-500 focus:outline-none"
                 />
               </div>
             </div>
@@ -442,7 +478,7 @@ const AidAttendanceForm = () => {
                     value={formData[activity.name]}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-teal-500 focus:outline-none"
+                    className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-indigo-500 focus:outline-none"
                   >
                     <option value="">Select level</option>
                     {adlOptions.map((option) => (
@@ -472,7 +508,7 @@ const AidAttendanceForm = () => {
                   value={formData.supervisionNeeded}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-teal-500 focus:outline-none"
+                  className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-indigo-500 focus:outline-none"
                 >
                   <option value="">Select supervision level</option>
                   <option value="none">No supervision needed</option>
@@ -491,7 +527,7 @@ const AidAttendanceForm = () => {
                   name="assistanceHours"
                   value={formData.assistanceHours}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-teal-500 focus:outline-none"
+                  className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-indigo-500 focus:outline-none"
                   placeholder="e.g., 8 hours, 24 hours, as needed"
                 />
               </div>
@@ -505,7 +541,7 @@ const AidAttendanceForm = () => {
                   value={formData.caregiverInfo}
                   onChange={handleChange}
                   rows="3"
-                  className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-teal-500 focus:outline-none"
+                  className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-indigo-500 focus:outline-none"
                   placeholder="Who currently provides care? Family member, professional caregiver, etc."
                 />
               </div>
@@ -528,7 +564,7 @@ const AidAttendanceForm = () => {
                   value={formData.additionalInfo}
                   onChange={handleChange}
                   rows="4"
-                  className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-teal-500 focus:outline-none"
+                  className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-indigo-500 focus:outline-none"
                   placeholder="Any additional information that would help with your evaluation..."
                 />
               </div>
@@ -539,7 +575,7 @@ const AidAttendanceForm = () => {
                   name="rushService"
                   checked={formData.rushService}
                   onChange={handleChange}
-                  className="w-5 h-5 text-teal-600 border-2 border-slate-300 rounded focus:ring-teal-500"
+                  className="w-5 h-5 text-indigo-600 border-2 border-slate-300 rounded focus:ring-indigo-500"
                 />
                 <label className="text-sm font-semibold text-slate-700">
                   Rush Service (+$500 USD for 36-48 hour delivery)
@@ -568,7 +604,7 @@ const AidAttendanceForm = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-teal-600 text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-teal-700 transition-all hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+            className="w-full bg-indigo-600 text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-indigo-700 transition-all hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
           >
             {loading ? (
               <>

@@ -73,14 +73,14 @@ INSERT INTO services (id, slug, title, short_description, full_description, feat
     'expert-consultation',
     'One-on-One Consultation with Expert',
     'Personal consultation to review your claim with medical expert',
-    'Schedule a comprehensive one-on-one consultation with Dr. Kishan Bhalani to review your VA claim, discuss your medical conditions, and receive personalized guidance on strengthening your case. This direct consultation provides expert insights tailored to your specific situation.',
-    '["Personal consultation with Dr. Bhalani", "Comprehensive claim review", "Medical condition assessment", "Personalized recommendations"]'::jsonb,
+    'Schedule a comprehensive one-on-one consultation with our medical expert to review your VA claim, discuss your medical conditions, and receive personalized guidance on strengthening your case. This direct consultation provides expert insights tailored to your specific situation.',
+    '["Personal consultation with medical expert", "Comprehensive claim review", "Medical condition assessment", "Personalized recommendations"]'::jsonb,
     249,
     '1-hour consultation scheduled within 3-5 days',
     'consultation',
     'users',
     '[
-        {"question": "How does the consultation work?", "answer": "You''ll have a scheduled one-on-one video or phone consultation with Dr. Kishan Bhalani to discuss your claim, medical conditions, and receive personalized guidance."},
+        {"question": "How does the consultation work?", "answer": "You''ll have a scheduled one-on-one video or phone consultation with our medical expert to discuss your claim, medical conditions, and receive personalized guidance."},
         {"question": "What should I prepare for the consultation?", "answer": "Bring your medical records, VA correspondence, and any questions about your claim. We''ll review everything together during the session."},
         {"question": "Can I ask questions during the consultation?", "answer": "Absolutely! This is your dedicated time with the expert to ask questions, discuss concerns, and get personalized advice for your specific situation."}
     ]'::jsonb,
@@ -132,7 +132,7 @@ INSERT INTO blog_posts (id, slug, title, excerpt, content_html, category, tags, 
     '<h2>Understanding Nexus and Rebuttal Letters</h2><p>Both nexus and rebuttal letters are crucial medical documents in the VA claims process, but they serve different purposes at different stages of your claim.</p><h3>Nexus Letters: Building Your Initial Case</h3><p>A nexus letter establishes the connection between your military service and your current medical condition. The term ''nexus'' means connection or link.</p><ul><li>Review of service records</li><li>Review of medical records</li><li>Medical rationale</li><li>Opinion to ''at least as likely as not'' standard</li></ul><h3>Rebuttal Letters: Fighting Unfavorable Decisions</h3><p>When the VA denies your claim or gives you a lower rating than expected, a rebuttal letter challenges their decision with contrary medical evidence.</p><ul><li>Addresses specific VA denial reasons</li><li>Provides alternative medical interpretation</li><li>Challenges VA examiner conclusions</li><li>Supports higher disability ratings</li></ul><h3>When Do You Need Each?</h3><p><strong>Nexus Letters:</strong> For initial claims, reopened claims, or when establishing service connection.</p><p><strong>Rebuttal Letters:</strong> For appeals, higher level reviews, or when challenging unfavorable VA decisions.</p><p>Both types of letters can be the difference between an approved and denied claim, or between a 30% and 70% disability rating.</p>',
     'nexus-letters',
     ARRAY['nexus', 'rebuttal', 'medical opinion', 'appeals'],
-    'Dr. Kishan Bhalani',
+    'Military Disability Nexus',
     '2025-09-15 10:00:00+00',
     '6 min read'
 ),
@@ -144,7 +144,7 @@ INSERT INTO blog_posts (id, slug, title, excerpt, content_html, category, tags, 
     '<h2>Preparing for Your C&P Exam</h2><p>The Compensation and Pension (C&P) exam is a critical step in the VA claims process. Here''s how to prepare.</p><h3>Before the Exam</h3><ul><li>Gather all relevant medical records</li><li>Keep a symptom diary for at least 2 weeks</li><li>List all medications and treatments</li><li>Note how conditions affect daily life</li></ul><h3>During the Exam</h3><p>Be honest, thorough, and describe your worst days. The examiner needs to understand the full impact of your condition.</p>',
     'exam-prep',
     ARRAY['C&P', 'exam prep'],
-    'Dr. Kishan Bhalani',
+    'Military Disability Nexus',
     '2025-09-20 10:00:00+00',
     '7 min read'
 ),
@@ -156,7 +156,7 @@ INSERT INTO blog_posts (id, slug, title, excerpt, content_html, category, tags, 
     '<h2>Aid & Attendance Benefits</h2><p>Aid and Attendance (A&A) is an additional benefit for veterans who need help with activities of daily living (ADLs).</p><h3>Who Qualifies?</h3><p>Veterans who require assistance with:</p><ul><li>Bathing or dressing</li><li>Eating or using the bathroom</li><li>Adjusting prosthetic devices</li><li>Protection from hazards due to mental conditions</li></ul><h3>Required Documentation</h3><p>VA Form 21-2680 must be completed by a physician who examines the veteran and documents their need for regular aid and attendance.</p>',
     'aid-attendance',
     ARRAY['aid & attendance', '21-2680'],
-    'Dr. Kishan Bhalani',
+    'Military Disability Nexus',
     '2025-09-25 10:00:00+00',
     '6 min read'
 ),
@@ -168,7 +168,7 @@ INSERT INTO blog_posts (id, slug, title, excerpt, content_html, category, tags, 
     '<h2>What is a 1151 Claim?</h2><p>A 1151 claim, filed under 38 U.S.C. § 1151, allows veterans to seek compensation when they are injured or their condition is worsened due to VA medical care, treatment, or hospitalization.</p><h3>When to Consider a 1151 Claim</h3><ul><li><strong>Surgical Errors:</strong> Complications from VA surgeries due to negligence</li><li><strong>Medication Mistakes:</strong> Wrong medications or dosages causing harm</li><li><strong>Hospital-Acquired Infections:</strong> Infections due to unsanitary conditions</li><li><strong>Misdiagnosis:</strong> Delayed or incorrect diagnosis leading to worsening</li><li><strong>Treatment Delays:</strong> Unreasonable delays causing deterioration</li></ul><h3>Key Differences from Regular Claims</h3><p>Unlike standard VA disability claims, 1151 claims require proving:</p><ul><li>VA negligence or deviation from medical standards</li><li>Direct causation between VA care and your injury</li><li>Additional disability beyond your original condition</li></ul><h3>Evidence Requirements</h3><p>Strong 1151 claims typically include:</p><ul><li>Complete VA medical records</li><li>Independent medical expert opinions</li><li>Documentation of the standard of care</li><li>Proof of additional disability or worsening</li></ul><h3>Why Expert Medical Opinion Matters</h3><p>1151 claims have a higher burden of proof than regular VA claims. Expert medical analysis is crucial to establish that the VA deviated from accepted medical standards and directly caused your injury or worsening condition.</p>',
     '1151-claims',
     ARRAY['1151 claim', 'VA malpractice', 'medical negligence'],
-    'Dr. Kishan Bhalani',
+    'Military Disability Nexus',
     '2025-10-01 10:00:00+00',
     '8 min read'
 );
@@ -177,7 +177,7 @@ INSERT INTO blog_posts (id, slug, title, excerpt, content_html, category, tags, 
 -- SAMPLE TESTIMONIALS
 -- ============================================
 INSERT INTO testimonials (client_name, client_title, rating, testimonial_text, is_featured, display_order) VALUES
-('John D.', 'Army Veteran', 5, 'The nexus letter from Dr. Bhalani was exactly what I needed. Clear, professional, and my claim was approved within 3 months. Highly recommend!', true, 1),
+('John D.', 'Army Veteran', 5, 'The nexus letter was exactly what I needed. Clear, professional, and my claim was approved within 3 months. Highly recommend!', true, 1),
 ('Sarah M.', 'Navy Veteran', 5, 'After two denials, the rebuttal letter helped me win my appeal. The medical analysis was thorough and addressed every point the VA raised.', true, 2),
 ('Robert K.', 'Marine Corps Veteran', 5, 'Professional service from start to finish. The C&P coaching prepared me perfectly for my exam. Worth every penny.', false, 3);
 

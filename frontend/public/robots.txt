@@ -1,0 +1,9 @@
+# Robots.txt for Medical Consulting Website
+
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /admin/*
+
+# Sitemap
+Sitemap: https://your-site.vercel.app/sitemap.xml

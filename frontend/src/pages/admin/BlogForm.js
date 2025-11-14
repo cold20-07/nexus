@@ -18,13 +18,14 @@ const BlogForm = () => {
     content_html: '',
     category: 'nexus-letters',
     tags: [],
-    author_name: 'Dr. Kishan Bhalani',
+    author_name: 'Military Disability Nexus',
     read_time: '5 min read',
     is_published: false,
     published_at: new Date().toISOString().split('T')[0],
   });
 
   const [tagInput, setTagInput] = useState('');
+  const [contentText, setContentText] = useState('');
 
   useEffect(() => {
     if (isEdit) {
@@ -45,10 +46,70 @@ const BlogForm = () => {
         ...data,
         published_at: data.published_at?.split('T')[0] || new Date().toISOString().split('T')[0],
       });
+      // Convert HTML back to plain text for editing
+      setContentText(htmlToText(data.content_html));
     } catch (error) {
       console.error('Error fetching post:', error);
       toast.error('Failed to load post');
     }
+  };
+
+  // Convert plain text to HTML with basic formatting
+  const textToHtml = (text) => {
+    if (!text) return '';
+    
+    // Split by double line breaks for paragraphs
+    const paragraphs = text.split('\n\n');
+    
+    return paragraphs.map(para => {
+      para = para.trim();
+      if (!para) return '';
+      
+      // Check if it's a heading (starts with # or ##)
+      if (para.startsWith('## ')) {
+        return `<h3>${para.substring(3)}</h3>`;
+      } else if (para.startsWith('# ')) {
+        return `<h2>${para.substring(2)}</h2>`;
+      }
+      
+      // Check if it's a list (lines starting with - or *)
+      if (para.includes('\n-') || para.includes('\n*') || para.startsWith('-') || para.startsWith('*')) {
+        const items = para.split('\n').filter(line => line.trim());
+        const listItems = items.map(item => {
+          const cleaned = item.replace(/^[-*]\s*/, '').trim();
+          return cleaned ? `<li>${cleaned}</li>` : '';
+        }).filter(Boolean).join('');
+        return `<ul>${listItems}</ul>`;
+      }
+      
+      // Regular paragraph
+      return `<p>${para}</p>`;
+    }).join('');
+  };
+
+  // Convert HTML to plain text for editing
+  const htmlToText = (html) => {
+    if (!html) return '';
+    
+    return html
+      .replace(/<h2>(.*?)<\/h2>/g, '# $1\n\n')
+      .replace(/<h3>(.*?)<\/h3>/g, '## $1\n\n')
+      .replace(/<\/p>/g, '\n\n')
+      .replace(/<p>/g, '')
+      .replace(/<li>(.*?)<\/li>/g, '- $1\n')
+      .replace(/<\/?ul>/g, '\n')
+      .replace(/<br\s*\/?>/g, '\n')
+      .replace(/<[^>]+>/g, '')
+      .trim();
+  };
+
+  const handleContentChange = (e) => {
+    const text = e.target.value;
+    setContentText(text);
+    setFormData({
+      ...formData,
+      content_html: textToHtml(text),
+    });
   };
 
   const handleChange = (e) => {
@@ -158,7 +219,7 @@ const BlogForm = () => {
                   value={formData.title}
                   onChange={handleTitleChange}
                   required
-                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 />
               </div>
 
@@ -172,7 +233,7 @@ const BlogForm = () => {
                   value={formData.slug}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 />
               </div>
 
@@ -187,25 +248,48 @@ const BlogForm = () => {
                   required
                   rows="2"
                   placeholder="Brief summary of the post"
-                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 />
               </div>
 
               <div>
                 <label className="block text-sm font-semibold text-slate-700 mb-2">
-                  Content (HTML) *
+                  Content *
                 </label>
+                <div className="mb-2 p-3 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-600">
+                  <p className="font-semibold mb-2">Formatting Guide:</p>
+                  <ul className="space-y-1 text-xs">
+                    <li>• <strong># Heading</strong> - Creates a main heading</li>
+                    <li>• <strong>## Subheading</strong> - Creates a subheading</li>
+                    <li>• <strong>- Item</strong> - Creates a bullet point</li>
+                    <li>• Leave blank lines between paragraphs</li>
+                  </ul>
+                </div>
                 <textarea
-                  name="content_html"
-                  value={formData.content_html}
-                  onChange={handleChange}
+                  value={contentText}
+                  onChange={handleContentChange}
                   required
-                  rows="12"
-                  placeholder="<h2>Your content here</h2><p>Write your blog post content in HTML...</p>"
-                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 font-mono text-sm"
+                  rows="16"
+                  placeholder="# Main Heading&#10;&#10;Write your content here. Leave blank lines between paragraphs.&#10;&#10;## Subheading&#10;&#10;More content here.&#10;&#10;- Bullet point 1&#10;- Bullet point 2&#10;- Bullet point 3"
+                  className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 />
-                <p className="text-xs text-slate-500 mt-1">Use HTML tags for formatting</p>
+                <p className="text-xs text-slate-500 mt-2">
+                  Write naturally - formatting will be applied automatically
+                </p>
               </div>
+
+              {/* Preview */}
+              {contentText && (
+                <div>
+                  <label className="block text-sm font-semibold text-slate-700 mb-2">
+                    Preview
+                  </label>
+                  <div 
+                    className="p-4 border border-slate-300 rounded-lg bg-slate-50 prose prose-slate max-w-none"
+                    dangerouslySetInnerHTML={{ __html: formData.content_html }}
+                  />
+                </div>
+              )}
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
@@ -216,7 +300,7 @@ const BlogForm = () => {
                     name="category"
                     value={formData.category}
                     onChange={handleChange}
-                    className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                    className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   >
                     <option value="nexus-letters">Nexus Letters</option>
                     <option value="exam-prep">Exam Prep</option>
@@ -236,7 +320,7 @@ const BlogForm = () => {
                     value={formData.read_time}
                     onChange={handleChange}
                     placeholder="5 min read"
-                    className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                    className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   />
                 </div>
               </div>
@@ -251,7 +335,7 @@ const BlogForm = () => {
                     name="author_name"
                     value={formData.author_name}
                     onChange={handleChange}
-                    className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                    className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   />
                 </div>
 
@@ -264,7 +348,7 @@ const BlogForm = () => {
                     name="published_at"
                     value={formData.published_at}
                     onChange={handleChange}
-                    className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                    className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   />
                 </div>
               </div>
@@ -280,7 +364,7 @@ const BlogForm = () => {
                     onChange={(e) => setTagInput(e.target.value)}
                     onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addTag())}
                     placeholder="Add a tag"
-                    className="flex-1 px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                    className="flex-1 px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   />
                   <button
                     type="button"
@@ -294,13 +378,13 @@ const BlogForm = () => {
                   {formData.tags.map((tag, index) => (
                     <span
                       key={index}
-                      className="px-3 py-1 bg-teal-100 text-teal-800 rounded-full text-sm flex items-center space-x-2"
+                      className="px-3 py-1 bg-indigo-100 text-indigo-800 rounded-full text-sm flex items-center space-x-2"
                     >
                       <span>{tag}</span>
                       <button
                         type="button"
                         onClick={() => removeTag(tag)}
-                        className="text-teal-600 hover:text-teal-800"
+                        className="text-indigo-600 hover:text-indigo-800"
                       >
                         ×
                       </button>
@@ -315,7 +399,7 @@ const BlogForm = () => {
                   name="is_published"
                   checked={formData.is_published}
                   onChange={handleChange}
-                  className="w-4 h-4 text-teal-600 border-slate-300 rounded focus:ring-teal-500"
+                  className="w-4 h-4 text-indigo-600 border-slate-300 rounded focus:ring-indigo-500"
                 />
                 <label className="ml-2 text-sm font-semibold text-slate-700">
                   Published (visible on website)
@@ -335,7 +419,7 @@ const BlogForm = () => {
             <button
               type="submit"
               disabled={loading}
-              className="px-6 py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 disabled:opacity-50 flex items-center space-x-2"
+              className="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:opacity-50 flex items-center space-x-2"
             >
               <Save className="w-5 h-5" />
               <span>{loading ? 'Saving...' : isEdit ? 'Update Post' : 'Create Post'}</span>

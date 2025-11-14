@@ -83,6 +83,27 @@ TO public
 USING (bucket_id = 'medical-documents');
 
 -- ============================================
+-- FORM_SUBMISSIONS TABLE - Allow public access
+-- ============================================
+
+ALTER TABLE form_submissions ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "Allow public form submissions" ON form_submissions;
+DROP POLICY IF EXISTS "Allow public to read form_submissions" ON form_submissions;
+
+CREATE POLICY "Allow public form submissions"
+ON form_submissions
+FOR INSERT
+TO public
+WITH CHECK (true);
+
+CREATE POLICY "Allow public to read form_submissions"
+ON form_submissions
+FOR SELECT
+TO public
+USING (true);
+
+-- ============================================
 -- VERIFY POLICIES WERE CREATED
 -- ============================================
 
@@ -94,7 +115,7 @@ SELECT
     roles, 
     cmd
 FROM pg_policies
-WHERE tablename IN ('contacts', 'file_uploads')
+WHERE tablename IN ('contacts', 'file_uploads', 'form_submissions')
 ORDER BY tablename, policyname;
 
 -- Check storage policies

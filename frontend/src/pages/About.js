@@ -1,165 +1,179 @@
-import { Award, Target, Users, CheckCircle } from 'lucide-react';
+import { Award, Target, CheckCircle, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import SEO from '../components/SEO';
 
 const About = () => {
   return (
-    <div className="bg-slate-50 min-h-screen">
+    <>
+      <SEO 
+        title="About Us - Clinician-Led VA Medical Documentation"
+        description="Military Disability Nexus provides clinician-led expert medical opinions for VA disability claims. Licensed professionals helping veterans nationwide with nexus letters, DBQs, and medical consultations."
+        keywords="VA medical experts, clinician-led nexus letters, veteran medical documentation, licensed medical professionals"
+      />
+    <div className="relative min-h-screen overflow-hidden">
+      {/* Fixed Background */}
+      <div className="fixed inset-0 z-0 overflow-hidden">
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{
+            backgroundImage: 'url("/Gemini_Generated_Image_mpiv0lmpiv0lmpiv.png")',
+            filter: 'blur(4px)',
+            transform: 'scale(1.1)',
+            width: '100%',
+            height: '100%'
+          }}
+        ></div>
+        <div className="absolute inset-0 bg-white/50"></div>
+      </div>
+
+      <div className="relative z-10">
       {/* Hero */}
-      <section className="bg-gradient-to-br from-teal-600 to-emerald-600 py-20">
+      <section className="py-24">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl sm:text-5xl font-bold text-white mb-6">Who We Are</h1>
-          <p className="text-xl text-teal-50">
-            Professional medical documentation services
+          <h1 className="text-5xl font-bold text-slate-900 mb-6 drop-shadow-sm">🎖 Who We Are</h1>
+          <p className="text-xl text-slate-700">
+            Clinician-led expert medical opinions for VA disability claims
           </p>
         </div>
       </section>
 
-      {/* Mission Statement */}
+      {/* Who We Are */}
       <section className="py-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-white rounded-2xl p-8 md:p-12 shadow-lg text-center">
+          <div className="bg-white/80 backdrop-blur-xl rounded-2xl p-8 md:p-12 shadow-2xl border border-white/40">
             <h2 className="text-3xl font-bold text-slate-900 mb-6">
-              Military Disability Nexus - Medical Documentation Expert
+              Military Disability Nexus
             </h2>
             <p className="text-lg text-slate-700 leading-relaxed mb-6">
-              Military Disability Nexus provides professional medical documentation services for veterans. With extensive experience in medical-legal documentation, we focus on accurate, ethical, and comprehensive medical evidence.
+              Military Disability Nexus is a clinician-led expert company that helps veterans build strong, medically sound evidence for their VA disability claims.
+            </p>
+            <p className="text-lg text-slate-700 leading-relaxed mb-6">
+              Our mission is simple: To bridge the gap between medicine and the VA — giving veterans the clear, credible documentation they need to receive the benefits they've earned.
+            </p>
+            <p className="text-lg text-slate-700 leading-relaxed mb-6">
+              We're not a law firm or a claims representative. We're a team of subject matter experts and clinicians professionals who understand both the clinical and regulatory sides of the VA process.
             </p>
             <p className="text-lg text-slate-700 leading-relaxed">
-              Every nexus letter, DBQ, and consultation is tailored to your specific case, grounded in clinical merit, and designed to provide clear, professional medical documentation for your needs.
+              Our clinicians know how to interpret complex medical histories and translate them into clear, VA-ready documentation that decision-makers can rely on.
             </p>
           </div>
         </div>
       </section>
 
-      {/* Values Grid */}
-      <section className="py-16">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-slate-900 mb-12 text-center">Our Values</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="bg-white rounded-2xl p-8 border-2 border-slate-200">
-              <div className="w-12 h-12 bg-teal-100 rounded-xl flex items-center justify-center mb-4">
-                <Target className="w-6 h-6 text-teal-600" />
-              </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-3">Mission</h3>
-              <p className="text-slate-700">
-                Precise evidence that stands on clinical merit and helps the adjudicator understand your case.
-              </p>
-            </div>
-
-            <div className="bg-white rounded-2xl p-8 border-2 border-slate-200">
-              <div className="w-12 h-12 bg-teal-100 rounded-xl flex items-center justify-center mb-4">
-                <CheckCircle className="w-6 h-6 text-teal-600" />
-              </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-3">Values</h3>
-              <p className="text-slate-700">
-                Compassion • Accuracy • Transparency • Collaboration
-              </p>
-            </div>
-
-            <div className="bg-white rounded-2xl p-8 border-2 border-slate-200">
-              <div className="w-12 h-12 bg-teal-100 rounded-xl flex items-center justify-center mb-4">
-                <Award className="w-6 h-6 text-teal-600" />
-              </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-3">Credentials</h3>
-              <p className="text-slate-700">
-                MD/DO/NP team • Multi-state licensure • Peer review QA
-              </p>
-            </div>
-
-
-          </div>
-        </div>
-      </section>
-
-      {/* Approach */}
-      <section className="py-16 bg-white">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-slate-900 mb-12 text-center">Our Approach</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="text-center">
-              <div className="bg-teal-100 rounded-2xl p-6 mb-4">
-                <h3 className="text-xl font-bold text-slate-900 mb-3">Thorough Intake & Records</h3>
-                <p className="text-slate-700">
-                  We request only what's clinically relevant, then build a clean timeline.
-                </p>
-              </div>
-            </div>
-
-            <div className="text-center">
-              <div className="bg-teal-100 rounded-2xl p-6 mb-4">
-                <h3 className="text-xl font-bold text-slate-900 mb-3">Evidence-Based Rationale</h3>
-                <p className="text-slate-700">
-                  Differentials, risk factors, literature context when appropriate.
-                </p>
-              </div>
-            </div>
-
-            <div className="text-center">
-              <div className="bg-teal-100 rounded-2xl p-6 mb-4">
-                <h3 className="text-xl font-bold text-slate-900 mb-3">Quality Assurance</h3>
-                <p className="text-slate-700">
-                  Internal peer review for clarity, consistency, and defensibility.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* FAQ */}
+      {/* Our Mission */}
       <section className="py-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-slate-900 mb-8 text-center">Frequently Asked Questions</h2>
-          <div className="space-y-4">
-            {[
-              {
-                q: 'Do you coordinate with attorneys/VSOs?',
-                a: 'Yes. We are independent clinicians and can collaborate with your accredited representatives or attorneys upon request.',
-              },
-              {
-                q: 'Who writes the opinions?',
-                a: 'Board-certified physicians or experienced nurse practitioners with relevant specialty training.',
-              },
-              {
-                q: 'What records do you need?',
-                a: 'Service treatment records, VA medical records, and relevant private records. We guide you on specifics during intake.',
-              },
-              {
-                q: 'How long does it take?',
-                a: 'Most nexus letters: 7-10 business days. DBQs: 5-7 days. Rush service available for 36-48 hours delivery.',
-              },
-            ].map((faq, idx) => (
-              <details key={idx} className="bg-white rounded-xl p-6 group border-2 border-slate-200">
-                <summary className="font-semibold text-slate-900 cursor-pointer list-none flex justify-between items-center">
-                  <span>{faq.q}</span>
-                  <span className="text-teal-600 group-open:rotate-180 transition-transform">▼</span>
-                </summary>
-                <p className="mt-4 text-slate-600">{faq.a}</p>
-              </details>
-            ))}
+          <div className="bg-white/80 backdrop-blur-xl rounded-2xl p-8 md:p-12 shadow-2xl border border-white/40">
+            <div className="flex items-center gap-3 mb-6">
+              <Target className="w-8 h-8 text-blue-600" />
+              <h2 className="text-3xl font-bold text-slate-900">⚖ Our Mission</h2>
+            </div>
+            <p className="text-lg text-slate-700 leading-relaxed mb-6">
+              To empower veterans through credible, expert-authored medical documentation that tells the truth of their service and their health — clearly, professionally, and respectfully.
+            </p>
+            <p className="text-lg text-slate-700 leading-relaxed">
+              We believe veterans shouldn't lose benefits because of incomplete or confusing medical evidence. Our role is to make the medical side of your claim understandable, accurate, and VA-ready.
+            </p>
           </div>
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="py-16 bg-gradient-to-br from-teal-600 to-emerald-600">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-bold text-white mb-6">
-            Ready to get started?
-          </h2>
-          <p className="text-xl text-teal-50 mb-8">
-            Contact us for a free case review
-          </p>
-          <Link
-            to="/contact"
-            data-testid="about-cta-button"
-            className="inline-block bg-white text-teal-600 px-8 py-4 rounded-full font-semibold hover:bg-slate-50 transition-all hover:shadow-xl transform hover:-translate-y-1"
-          >
-            Get Free Consultation
-          </Link>
+      {/* Why Clinician-Led Matters */}
+      <section className="py-16">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="bg-white/80 backdrop-blur-xl rounded-2xl p-8 md:p-12 shadow-2xl border border-white/40">
+            <div className="flex items-center gap-3 mb-6">
+              <Award className="w-8 h-8 text-blue-600" />
+              <h2 className="text-3xl font-bold text-slate-900">Why "Clinician-Led" Matters</h2>
+            </div>
+            <p className="text-lg text-slate-700 leading-relaxed mb-6">
+              Too often, veterans rely on general assistance or legal support that lacks medical depth.
+            </p>
+            <p className="text-lg text-slate-700 leading-relaxed mb-6">
+              At Military Disability Nexus, every review, opinion, and consultation is led by Subject Matter Expert and/or Licensed Clinicians - who understand anatomy, pathophysiology, causation, and diagnosis from the inside out.
+            </p>
+            <p className="text-lg text-slate-700 leading-relaxed">
+              That means every word we write and every opinion we issue is grounded in real medical expertise, not guesswork or templates.
+            </p>
+          </div>
         </div>
       </section>
+
+      {/* What We Offer */}
+      <section className="py-16">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="bg-white/80 backdrop-blur-xl rounded-2xl p-8 md:p-12 shadow-2xl border border-white/40">
+            <h2 className="text-3xl font-bold text-slate-900 mb-6">What We Offer</h2>
+            <div className="space-y-4">
+              <div className="flex items-start space-x-3">
+                <CheckCircle className="w-6 h-6 text-blue-600 mt-1 flex-shrink-0" />
+                <div>
+                  <h3 className="font-semibold text-slate-900 mb-1">Nexus Letters</h3>
+                  <p className="text-slate-700">Expert medical opinions linking your condition to service</p>
+                </div>
+              </div>
+              <div className="flex items-start space-x-3">
+                <CheckCircle className="w-6 h-6 text-blue-600 mt-1 flex-shrink-0" />
+                <div>
+                  <h3 className="font-semibold text-slate-900 mb-1">DBQ Evaluations</h3>
+                  <p className="text-slate-700">Comprehensive disability benefits questionnaires</p>
+                </div>
+              </div>
+              <div className="flex items-start space-x-3">
+                <CheckCircle className="w-6 h-6 text-blue-600 mt-1 flex-shrink-0" />
+                <div>
+                  <h3 className="font-semibold text-slate-900 mb-1">Aid & Attendance</h3>
+                  <p className="text-slate-700">Medical evaluations for pension benefits</p>
+                </div>
+              </div>
+              <div className="flex items-start space-x-3">
+                <CheckCircle className="w-6 h-6 text-blue-600 mt-1 flex-shrink-0" />
+                <div>
+                  <h3 className="font-semibold text-slate-900 mb-1">C&P Exam Coaching</h3>
+                  <p className="text-slate-700">Preparation guidance for compensation exams</p>
+                </div>
+              </div>
+            </div>
+            <div className="mt-8">
+              <Link
+                to="/services"
+                className="inline-flex items-center space-x-2 text-blue-600 font-semibold hover:text-blue-700 transition-colors"
+              >
+                <span>View All Services</span>
+                <ArrowRight className="w-5 h-5" />
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-16">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-600 rounded-3xl p-12 text-center shadow-2xl relative overflow-hidden">
+            <div className="absolute inset-0 bg-white/5 backdrop-blur-sm"></div>
+            <div className="relative z-10">
+              <h2 className="text-4xl font-bold text-white mb-6">
+                Ready to Get Started?
+              </h2>
+              <p className="text-xl text-white/90 mb-8">
+                Contact us for a free consultation and let us help strengthen your VA claim
+              </p>
+              <Link
+                to="/contact"
+                className="inline-flex items-center space-x-2 bg-white text-blue-600 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-slate-50 transition-all hover:scale-105 shadow-xl"
+              >
+                <span>Contact Us</span>
+                <ArrowRight className="w-5 h-5" />
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      </div>
     </div>
+    </>
   );
 };
 

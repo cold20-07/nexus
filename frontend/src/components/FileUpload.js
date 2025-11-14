@@ -193,7 +193,7 @@ const FileUpload = ({
       <div
         className={`relative border-2 border-dashed rounded-lg p-6 text-center transition-colors ${
           dragActive 
-            ? 'border-teal-500 bg-teal-50' 
+            ? 'border-indigo-500 bg-indigo-50' 
             : 'border-slate-300 hover:border-slate-400'
         }`}
         onDragEnter={handleDrag}
@@ -249,7 +249,7 @@ const FileUpload = ({
                     <div className="mt-2">
                       <div className="bg-slate-200 rounded-full h-2">
                         <div 
-                          className="bg-teal-600 h-2 rounded-full transition-all duration-300"
+                          className="bg-indigo-600 h-2 rounded-full transition-all duration-300"
                           style={{ width: `${fileItem.progress}%` }}
                         />
                       </div>
@@ -275,7 +275,7 @@ const FileUpload = ({
                     </button>
                   )}
                   {fileItem.status === 'uploading' && (
-                    <Loader className="w-5 h-5 text-teal-600 animate-spin" />
+                    <Loader className="w-5 h-5 text-indigo-600 animate-spin" />
                   )}
                   {fileItem.status === 'completed' && (
                     <CheckCircle className="w-5 h-5 text-green-600" />
@@ -293,7 +293,7 @@ const FileUpload = ({
             <button
               onClick={uploadFiles}
               disabled={uploading}
-              className="w-full bg-teal-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-teal-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              className="w-full bg-indigo-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             >
               {uploading ? (
                 <span className="flex items-center justify-center space-x-2">

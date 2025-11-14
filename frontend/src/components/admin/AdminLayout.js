@@ -7,7 +7,8 @@ import {
   MessageSquare, 
   LogOut,
   Menu,
-  X
+  X,
+  ClipboardList
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { useState } from 'react';
@@ -31,6 +32,7 @@ const AdminLayout = ({ children }) => {
   const navigation = [
     { name: 'Dashboard', href: '/admin/dashboard', icon: LayoutDashboard },
     { name: 'Contacts', href: '/admin/contacts', icon: MessageSquare },
+    { name: 'Form Submissions', href: '/admin/form-submissions', icon: ClipboardList },
     { name: 'Services', href: '/admin/services', icon: Briefcase },
     { name: 'Blog Posts', href: '/admin/blog', icon: FileText },
   ];
@@ -41,7 +43,7 @@ const AdminLayout = ({ children }) => {
     <div className="min-h-screen bg-slate-50">
       {/* Sidebar - Desktop */}
       <div className="hidden md:fixed md:inset-y-0 md:flex md:w-64 md:flex-col">
-        <div className="flex flex-col flex-grow bg-teal-700 overflow-y-auto">
+        <div className="flex flex-col flex-grow bg-indigo-700 overflow-y-auto">
           <div className="flex items-center flex-shrink-0 px-4 py-6">
             <h1 className="text-2xl font-bold text-white">Admin Panel</h1>
           </div>
@@ -54,8 +56,8 @@ const AdminLayout = ({ children }) => {
                   to={item.href}
                   className={`group flex items-center px-3 py-3 text-sm font-medium rounded-lg transition-colors ${
                     isActive(item.href)
-                      ? 'bg-teal-800 text-white'
-                      : 'text-teal-100 hover:bg-teal-600 hover:text-white'
+                      ? 'bg-indigo-800 text-white'
+                      : 'text-indigo-100 hover:bg-indigo-600 hover:text-white'
                   }`}
                 >
                   <Icon className="mr-3 h-5 w-5" />
@@ -64,10 +66,10 @@ const AdminLayout = ({ children }) => {
               );
             })}
           </nav>
-          <div className="flex-shrink-0 flex border-t border-teal-800 p-4">
+          <div className="flex-shrink-0 flex border-t border-indigo-800 p-4">
             <button
               onClick={handleLogout}
-              className="flex-shrink-0 w-full group flex items-center px-3 py-3 text-sm font-medium text-teal-100 rounded-lg hover:bg-teal-600 hover:text-white transition-colors"
+              className="flex-shrink-0 w-full group flex items-center px-3 py-3 text-sm font-medium text-indigo-100 rounded-lg hover:bg-indigo-600 hover:text-white transition-colors"
             >
               <LogOut className="mr-3 h-5 w-5" />
               Logout
@@ -77,7 +79,7 @@ const AdminLayout = ({ children }) => {
       </div>
 
       {/* Mobile menu button */}
-      <div className="md:hidden fixed top-0 left-0 right-0 bg-teal-700 z-40">
+      <div className="md:hidden fixed top-0 left-0 right-0 bg-indigo-700 z-40">
         <div className="flex items-center justify-between px-4 py-4">
           <h1 className="text-xl font-bold text-white">Admin Panel</h1>
           <button
@@ -91,7 +93,7 @@ const AdminLayout = ({ children }) => {
 
       {/* Mobile menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden fixed inset-0 z-30 bg-teal-700 pt-16">
+        <div className="md:hidden fixed inset-0 z-30 bg-indigo-700 pt-16">
           <nav className="px-2 pb-4 space-y-1">
             {navigation.map((item) => {
               const Icon = item.icon;
@@ -102,8 +104,8 @@ const AdminLayout = ({ children }) => {
                   onClick={() => setMobileMenuOpen(false)}
                   className={`group flex items-center px-3 py-3 text-sm font-medium rounded-lg ${
                     isActive(item.href)
-                      ? 'bg-teal-800 text-white'
-                      : 'text-teal-100 hover:bg-teal-600 hover:text-white'
+                      ? 'bg-indigo-800 text-white'
+                      : 'text-indigo-100 hover:bg-indigo-600 hover:text-white'
                   }`}
                 >
                   <Icon className="mr-3 h-5 w-5" />
@@ -113,7 +115,7 @@ const AdminLayout = ({ children }) => {
             })}
             <button
               onClick={handleLogout}
-              className="w-full flex items-center px-3 py-3 text-sm font-medium text-teal-100 rounded-lg hover:bg-teal-600 hover:text-white"
+              className="w-full flex items-center px-3 py-3 text-sm font-medium text-indigo-100 rounded-lg hover:bg-indigo-600 hover:text-white"
             >
               <LogOut className="mr-3 h-5 w-5" />
               Logout

@@ -40,7 +40,7 @@ const Dashboard = () => {
 
   const statCards = [
     { name: 'Total Contacts', value: stats.contacts, icon: MessageSquare, color: 'bg-blue-500' },
-    { name: 'Services', value: stats.services, icon: Briefcase, color: 'bg-teal-500' },
+    { name: 'Services', value: stats.services, icon: Briefcase, color: 'bg-indigo-500' },
     { name: 'Blog Posts', value: stats.blogPosts, icon: FileText, color: 'bg-purple-500' },
     { name: 'Files Uploaded', value: stats.files, icon: Upload, color: 'bg-orange-500' },
   ];
@@ -55,7 +55,7 @@ const Dashboard = () => {
 
         {loading ? (
           <div className="flex items-center justify-center py-12">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600" />
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600" />
           </div>
         ) : (
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
@@ -83,21 +83,21 @@ const Dashboard = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <a
               href="/admin/contacts"
-              className="p-4 border-2 border-slate-200 rounded-lg hover:border-teal-500 hover:bg-teal-50 transition-colors"
+              className="p-4 border-2 border-slate-200 rounded-lg hover:border-indigo-500 hover:bg-indigo-50 transition-colors"
             >
               <h3 className="font-semibold text-slate-900">View Contacts</h3>
               <p className="text-sm text-slate-600 mt-1">Manage form submissions</p>
             </a>
             <a
               href="/admin/services"
-              className="p-4 border-2 border-slate-200 rounded-lg hover:border-teal-500 hover:bg-teal-50 transition-colors"
+              className="p-4 border-2 border-slate-200 rounded-lg hover:border-indigo-500 hover:bg-indigo-50 transition-colors"
             >
               <h3 className="font-semibold text-slate-900">Manage Services</h3>
               <p className="text-sm text-slate-600 mt-1">Add or edit services</p>
             </a>
             <a
               href="/admin/blog"
-              className="p-4 border-2 border-slate-200 rounded-lg hover:border-teal-500 hover:bg-teal-50 transition-colors"
+              className="p-4 border-2 border-slate-200 rounded-lg hover:border-indigo-500 hover:bg-indigo-50 transition-colors"
             >
               <h3 className="font-semibold text-slate-900">Manage Blog</h3>
               <p className="text-sm text-slate-600 mt-1">Create and edit posts</p>
