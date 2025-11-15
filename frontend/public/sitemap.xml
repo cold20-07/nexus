@@ -5,7 +5,7 @@
   
   <!-- Homepage -->
   <url>
-    <loc>https://militarydisabilitynexus.com/</loc>
+    <loc>https://www.militarydisabilitynexus.com/</loc>
     <lastmod>2025-11-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
@@ -13,35 +13,35 @@
   
   <!-- Services -->
   <url>
-    <loc>https://militarydisabilitynexus.com/services</loc>
+    <loc>https://www.militarydisabilitynexus.com/services</loc>
     <lastmod>2025-11-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   
   <url>
-    <loc>https://militarydisabilitynexus.com/services/nexus-rebuttal-letters</loc>
+    <loc>https://www.militarydisabilitynexus.com/services/nexus-rebuttal-letters</loc>
     <lastmod>2025-11-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
-    <loc>https://militarydisabilitynexus.com/services/public-dbqs</loc>
+    <loc>https://www.militarydisabilitynexus.com/services/public-dbqs</loc>
     <lastmod>2025-11-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
-    <loc>https://militarydisabilitynexus.com/services/aid-attendance</loc>
+    <loc>https://www.militarydisabilitynexus.com/services/aid-attendance</loc>
     <lastmod>2025-11-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
-    <loc>https://militarydisabilitynexus.com/services/1151-claim</loc>
+    <loc>https://www.militarydisabilitynexus.com/services/1151-claim</loc>
     <lastmod>2025-11-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -49,7 +49,7 @@
   
   <!-- Blog -->
   <url>
-    <loc>https://militarydisabilitynexus.com/blog</loc>
+    <loc>https://www.militarydisabilitynexus.com/blog</loc>
     <lastmod>2025-11-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
@@ -57,7 +57,7 @@
   
   <!-- Forms -->
   <url>
-    <loc>https://militarydisabilitynexus.com/forms</loc>
+    <loc>https://www.militarydisabilitynexus.com/forms</loc>
     <lastmod>2025-11-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -65,7 +65,7 @@
   
   <!-- Contact -->
   <url>
-    <loc>https://militarydisabilitynexus.com/contact</loc>
+    <loc>https://www.militarydisabilitynexus.com/contact</loc>
     <lastmod>2025-11-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -73,7 +73,7 @@
   
   <!-- About -->
   <url>
-    <loc>https://militarydisabilitynexus.com/about</loc>
+    <loc>https://www.militarydisabilitynexus.com/about</loc>
     <lastmod>2025-11-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -81,7 +81,7 @@
   
   <!-- Aid & Attendance Form -->
   <url>
-    <loc>https://militarydisabilitynexus.com/aid-attendance-form</loc>
+    <loc>https://www.militarydisabilitynexus.com/aid-attendance-form</loc>
     <lastmod>2025-11-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
