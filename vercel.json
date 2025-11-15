@@ -4,10 +4,18 @@
   "devCommand": "cd frontend && npm start",
   "installCommand": "cd frontend && npm install",
   "framework": "create-react-app",
-  "rewrites": [
+  "routes": [
     {
-      "source": "/((?!sitemap\\.xml|robots\\.txt|favicon\\.ico|manifest\\.json|.*\\.(png|jpg|jpeg|gif|svg|webp)).*)",
-      "destination": "/index.html"
+      "src": "/sitemap.xml",
+      "dest": "/sitemap.xml"
+    },
+    {
+      "src": "/robots.txt",
+      "dest": "/robots.txt"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
     }
   ],
   "headers": [
