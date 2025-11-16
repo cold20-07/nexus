@@ -70,12 +70,14 @@ const Contact = () => {
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
-            backgroundImage: 'url("/contactimg.png")',
+            backgroundImage: 'url("/contact-us-background.jpg")',
             filter: 'blur(4px)',
             transform: 'scale(1.1)',
             width: '100%',
             height: '100%'
           }}
+          role="presentation"
+          aria-hidden="true"
         ></div>
         <div className="absolute inset-0 bg-white/50"></div>
       </div>
@@ -114,7 +116,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <div className="font-semibold text-slate-900">Phone</div>
-                    <div className="text-slate-600">+91-XXXX-XXXXXX</div>
+                    <div className="text-slate-600">+1 307 301-2019</div>
                   </div>
                 </div>
               </div>

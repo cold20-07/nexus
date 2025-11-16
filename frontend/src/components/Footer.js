@@ -11,12 +11,14 @@ const Footer = () => {
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
-            backgroundImage: 'url("/Gemini_Generated_Image_f6860of6860of686.png")',
+            backgroundImage: 'url("/hero-va-disability-background.jpg")',
             filter: 'blur(3px)',
             transform: 'scale(1.05)',
             width: '100%',
             height: '100%'
           }}
+          role="presentation"
+          aria-hidden="true"
         ></div>
         <div className="absolute inset-0 bg-slate-900/85"></div>
       </div>
@@ -114,6 +116,7 @@ const Footer = () => {
           "logo": "https://militarydisabilitynexus.com/logo.png",
           "image": "https://militarydisabilitynexus.com/og-image.jpg",
           "email": "contact@militarydisabilitynexus.com",
+          "telephone": "+1-307-301-2019",
           "areaServed": {
             "@type": "Country",
             "name": "United States"

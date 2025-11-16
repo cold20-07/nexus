@@ -16,12 +16,14 @@ const About = () => {
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
-            backgroundImage: 'url("/Gemini_Generated_Image_mpiv0lmpiv0lmpiv.png")',
+            backgroundImage: 'url("/about-veteran-services-background.jpg")',
             filter: 'blur(4px)',
             transform: 'scale(1.1)',
             width: '100%',
             height: '100%'
           }}
+          role="presentation"
+          aria-hidden="true"
         ></div>
         <div className="absolute inset-0 bg-white/50"></div>
       </div>

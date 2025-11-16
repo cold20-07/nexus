@@ -42,7 +42,7 @@ const Home = () => {
           "name": "Military Disability Nexus",
           "description": "Professional medical documentation services for VA disability claims",
           "url": typeof window !== 'undefined' ? window.location.origin : 'https://militarydisabilitynexus.com',
-          "telephone": "contact@militarydisabilitynexus.com",
+          "telephone": "+1-307-301-2019",
           "priceRange": "$$",
           "areaServed": "US",
           "medicalSpecialty": "Veterans Medical Documentation"
@@ -56,11 +56,13 @@ const Home = () => {
           <div 
             className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat"
             style={{
-              backgroundImage: 'url("/Gemini_Generated_Image_f6860of6860of686.png")',
+              backgroundImage: 'url("/hero-va-disability-background.jpg")',
               filter: 'blur(4px)',
               width: '100%',
               height: '100%'
             }}
+            role="presentation"
+            aria-hidden="true"
           ></div>
           <div className="absolute inset-0 w-full h-full bg-gradient-to-br from-blue-600/50 via-indigo-600/45 to-purple-600/50"></div>
         </div>
