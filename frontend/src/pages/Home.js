@@ -56,7 +56,7 @@ const Home = () => {
           <div 
             className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat"
             style={{
-              backgroundImage: 'url("/hero-va-disability-background.jpg")',
+              backgroundImage: 'url("/Gemini_Generated_Image_7ax9sd7ax9sd7ax9.png")',
               filter: 'blur(4px)',
               width: '100%',
               height: '100%'

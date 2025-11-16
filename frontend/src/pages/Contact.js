@@ -70,7 +70,7 @@ const Contact = () => {
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
-            backgroundImage: 'url("/contact-us-background.jpg")',
+            backgroundImage: 'url("/contactimg.png")',
             filter: 'blur(4px)',
             transform: 'scale(1.1)',
             width: '100%',

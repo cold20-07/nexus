@@ -11,7 +11,7 @@ const Footer = () => {
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
-            backgroundImage: 'url("/hero-va-disability-background.jpg")',
+            backgroundImage: 'url("/Gemini_Generated_Image_7ax9sd7ax9sd7ax9.png")',
             filter: 'blur(3px)',
             transform: 'scale(1.05)',
             width: '100%',

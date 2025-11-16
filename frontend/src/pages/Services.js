@@ -50,7 +50,7 @@ const Services = () => {
           <div
             className="absolute inset-0 bg-cover bg-center bg-no-repeat"
             style={{
-              backgroundImage: 'url("/services-wave-background.jpg")',
+              backgroundImage: 'url("/wavefillservicep.png")',
               filter: 'blur(4px)',
               transform: 'scale(1.1)',
               width: '100%',
