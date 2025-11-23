@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ArrowRight, Users, Clock, Award } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { servicesApi, blogApi } from '../lib/api';
@@ -6,6 +6,7 @@ import SEO from '../components/SEO';
 import QuickIntakeForm from '../components/forms/QuickIntakeForm';
 
 const Home = () => {
+  const navigate = useNavigate();
   const [services, setServices] = useState([]);
   const [blogPosts, setBlogPosts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -85,18 +86,18 @@ const Home = () => {
               </p>
               
               <div className="flex flex-col gap-3 sm:gap-4 w-full">
-                <Link
-                  to="/services"
-                  className="inline-flex items-center justify-center text-center bg-blue-600 text-white px-4 sm:px-8 py-3 sm:py-3.5 rounded-lg font-semibold text-sm sm:text-base hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-500/50 transition-all duration-300 hover:scale-105 w-full sm:w-auto"
-                >
-                  <span className="truncate">Book Claim Readiness Review — $225</span>
-                </Link>
                 <button
-                  onClick={() => window.location.href = 'mailto:contact@militarydisabilitynexus.com?subject=Free Discovery Call'}
-                  className="inline-flex items-center justify-center text-center bg-white text-blue-600 px-4 sm:px-8 py-3 sm:py-3.5 rounded-lg font-semibold text-sm sm:text-base border-2 border-white/30 hover:border-blue-400 hover:shadow-lg hover:shadow-blue-300/50 transition-all duration-300 hover:scale-105 w-full sm:w-auto"
+                  onClick={() => navigate('/forms?view=schedule')}
+                  className="inline-flex items-center justify-center text-center bg-blue-600 text-white px-4 sm:px-8 py-3 sm:py-3.5 rounded-lg font-semibold text-sm sm:text-base hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-500/50 transition-all duration-300 hover:scale-105 w-full sm:w-auto"
                 >
                   <span className="truncate">Free Discovery Call for Nexus Letter</span>
                 </button>
+                <Link
+                  to="/claim-readiness-review"
+                  className="inline-flex items-center justify-center text-center bg-white text-blue-600 px-4 sm:px-8 py-3 sm:py-3.5 rounded-lg font-semibold text-sm sm:text-base border-2 border-white/30 hover:border-blue-400 hover:shadow-lg hover:shadow-blue-300/50 transition-all duration-300 hover:scale-105 w-full sm:w-auto"
+                >
+                  <span className="truncate">Book Claim Readiness Review</span>
+                </Link>
               </div>
               
               <div className="grid grid-cols-2 gap-4 sm:gap-6 pt-4 w-full">
@@ -177,11 +178,11 @@ const Home = () => {
 
 
       {/* Services Section with Blue Background */}
-      <section className="relative bg-gradient-to-br from-blue-500 via-blue-600 to-indigo-600 text-white py-16 sm:py-24 w-full">
+      <section className="relative bg-gradient-to-br from-blue-500 via-blue-600 to-indigo-600 text-white py-16 sm:py-24 w-full" style={{ marginTop: '-2px' }}>
         {/* Top Wave Transition */}
         <div className="absolute top-0 left-0 w-full" style={{ marginTop: '-1px', pointerEvents: 'none' }}>
-          <svg className="w-full" viewBox="0 0 1440 120" preserveAspectRatio="none" style={{ height: '120px', display: 'block' }}>
-            <path fill="#ffffff" d="M0,64L48,69.3C96,75,192,85,288,80C384,75,480,53,576,48C672,43,768,53,864,64C960,75,1056,85,1152,80C1248,75,1344,53,1392,42.7L1440,32L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"></path>
+          <svg className="w-full" viewBox="0 0 1440 120" preserveAspectRatio="none" style={{ height: '120px', display: 'block', verticalAlign: 'middle' }}>
+            <path fill="#ffffff" fillOpacity="1" d="M0,64L48,69.3C96,75,192,85,288,80C384,75,480,53,576,48C672,43,768,53,864,64C960,75,1056,85,1152,80C1248,75,1344,53,1392,42.7L1440,32L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"></path>
           </svg>
         </div>
 
@@ -226,15 +227,15 @@ const Home = () => {
         </div>
 
         {/* Bottom Wave Transition */}
-        <div className="absolute bottom-0 left-0 w-full" style={{ marginBottom: '-1px', pointerEvents: 'none' }}>
-          <svg className="w-full" viewBox="0 0 1440 120" preserveAspectRatio="none" style={{ height: '120px', display: 'block' }}>
-            <path fill="#1e293b" d="M0,64L48,69.3C96,75,192,85,288,80C384,75,480,53,576,48C672,43,768,53,864,64C960,75,1056,85,1152,80C1248,75,1344,53,1392,42.7L1440,32L1440,120L1392,120C1344,120,1248,120,1152,120C1056,120,960,120,864,120C768,120,672,120,576,120C480,120,384,120,288,120C192,120,96,120,48,120L0,120Z"></path>
+        <div className="absolute bottom-0 left-0 w-full" style={{ marginBottom: '-2px', pointerEvents: 'none' }}>
+          <svg className="w-full" viewBox="0 0 1440 120" preserveAspectRatio="none" style={{ height: '120px', display: 'block', verticalAlign: 'middle' }}>
+            <path fill="#0f172a" fillOpacity="1" d="M0,64L48,69.3C96,75,192,85,288,80C384,75,480,53,576,48C672,43,768,53,864,64C960,75,1056,85,1152,80C1248,75,1344,53,1392,42.7L1440,32L1440,120L1392,120C1344,120,1248,120,1152,120C1056,120,960,120,864,120C768,120,672,120,576,120C480,120,384,120,288,120C192,120,96,120,48,120L0,120Z"></path>
           </svg>
         </div>
       </section>
 
       {/* How It Works Section - Dark Background */}
-      <section className="relative bg-slate-900 text-white py-12 sm:py-16 md:py-24 w-full">
+      <section className="relative bg-slate-950 text-white py-12 sm:py-16 md:py-24 w-full" style={{ marginTop: '-2px' }}>
         <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10 sm:mb-12 md:mb-16">
             <h2 className="text-3xl sm:text-4xl font-bold mb-3 sm:mb-4">How It Works</h2>
@@ -331,7 +332,6 @@ const Home = () => {
           </div>
         </div>
       </section>
-
     </>
   );
 };

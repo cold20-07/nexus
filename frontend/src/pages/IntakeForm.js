@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Upload, Send, FileText } from 'lucide-react';
 import { toast } from 'sonner';
 import { formSubmissionsApi, fileUploadApi } from '../lib/api';
@@ -12,6 +13,7 @@ const FORM_TYPES = [
 ];
 
 const IntakeForm = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -86,10 +88,6 @@ const IntakeForm = () => {
     }
   };
 
-  const handleStartDiscovery = () => {
-    window.location.href = 'mailto:contact@militarydisabilitynexus.com?subject=Free Discovery Call';
-  };
-
   return (
     <>
       <SEO 
@@ -147,7 +145,7 @@ const IntakeForm = () => {
                 value={formData.phone}
                 onChange={handleChange}
                 className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 focus:outline-none"
-                placeholder="(555) 123-4567"
+                placeholder="+1 307 301-2019"
               />
             </div>
 
@@ -268,7 +266,7 @@ const IntakeForm = () => {
 
               <button
                 type="button"
-                onClick={handleStartDiscovery}
+                onClick={() => navigate('/forms?view=schedule')}
                 className="flex-1 bg-white text-blue-600 px-8 py-4 rounded-lg font-semibold text-lg border-2 border-slate-300 hover:border-slate-400 transition-colors flex items-center justify-center gap-2"
               >
                 <span>Free Discovery Call</span>

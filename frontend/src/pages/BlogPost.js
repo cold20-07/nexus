@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, Clock, Calendar, User } from 'lucide-react';
 import { blogApi } from '../lib/api';
 import SEO from '../components/SEO';
+import OptimizedImage from '../components/OptimizedImage';
 
 const BlogPost = () => {
   const { slug } = useParams();
@@ -112,6 +113,18 @@ const BlogPost = () => {
           </div>
         </div>
       </section>
+
+      {/* Featured Image */}
+      {post.featured_image && (
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8 mb-8">
+          <OptimizedImage
+            src={post.featured_image}
+            alt={post.title}
+            className="w-full h-96 object-cover rounded-2xl shadow-2xl"
+            priority={true}
+          />
+        </div>
+      )}
 
       {/* Content */}
       <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">

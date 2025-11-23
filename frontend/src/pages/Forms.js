@@ -1,6 +1,8 @@
-import { useState } from 'react';
-import { Send, Upload, X } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { Send, Upload, X, Calendar } from 'lucide-react';
 import { toast } from 'sonner';
+import { InlineWidget } from 'react-calendly';
 import SEO from '../components/SEO';
 import SuccessModal from '../components/SuccessModal';
 import { submitGenericForm, fileUploadApi, formSubmissionsApi } from '../lib/api';
@@ -14,6 +16,13 @@ const FORM_TYPES = [
 ];
 
 const Forms = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  
+  // Check URL parameter to determine initial view
+  const searchParams = new URLSearchParams(location.search);
+  const initialView = searchParams.get('view') === 'schedule';
+  
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -25,6 +34,22 @@ const Forms = () => {
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showCalendly, setShowCalendly] = useState(initialView);
+  
+  const calendlyUrl = process.env.REACT_APP_CALENDLY_URL || 'https://calendly.com/dr-kishanbhalani-web/new-meeting';
+  
+  // Update URL when toggling views
+  useEffect(() => {
+    const newSearchParams = new URLSearchParams();
+    if (showCalendly) {
+      newSearchParams.set('view', 'schedule');
+    }
+    const newSearch = newSearchParams.toString();
+    const newPath = newSearch ? `${location.pathname}?${newSearch}` : location.pathname;
+    if (location.pathname + location.search !== newPath) {
+      navigate(newPath, { replace: true });
+    }
+  }, [showCalendly, location.pathname, location.search, navigate]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -122,13 +147,61 @@ const Forms = () => {
               Get Started with Your VA Claim
             </h1>
             <p className="text-lg text-slate-600">
-              Fill out the form below and we'll get back to you shortly
+              Fill out the form below or schedule a free discovery call
             </p>
+            
+            {/* Toggle Buttons */}
+            <div className="flex justify-center gap-4 mt-6">
+              <button
+                onClick={() => setShowCalendly(false)}
+                className={`px-6 py-3 rounded-lg font-semibold transition-all ${
+                  !showCalendly
+                    ? 'bg-blue-600 text-white shadow-lg'
+                    : 'bg-white/80 text-slate-700 hover:bg-white'
+                }`}
+              >
+                <Send className="w-5 h-5 inline-block mr-2" />
+                Submit Form
+              </button>
+              <button
+                onClick={() => setShowCalendly(true)}
+                className={`px-6 py-3 rounded-lg font-semibold transition-all ${
+                  showCalendly
+                    ? 'bg-blue-600 text-white shadow-lg'
+                    : 'bg-white/80 text-slate-700 hover:bg-white'
+                }`}
+              >
+                <Calendar className="w-5 h-5 inline-block mr-2" />
+                Schedule Call
+              </button>
+            </div>
           </div>
 
-          <div className="bg-white/80 backdrop-blur-xl rounded-2xl shadow-2xl p-8 border border-white/40">
-            <h2 className="text-2xl font-bold text-slate-900 mb-6">Request Your Medical Documentation</h2>
-            <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Calendly Inline Widget */}
+          {showCalendly ? (
+            <div className="bg-white/80 backdrop-blur-xl rounded-2xl shadow-2xl p-8 border border-white/40">
+              <h2 className="text-2xl font-bold text-slate-900 mb-6">Schedule Your Free Discovery Call</h2>
+              <p className="text-slate-600 mb-6">
+                Book a consultation to discuss your VA claim needs. We'll help you understand which services are right for you.
+              </p>
+              <div className="bg-white rounded-lg overflow-hidden" style={{ minHeight: '700px' }}>
+                <InlineWidget
+                  url={calendlyUrl}
+                  styles={{ height: '700px' }}
+                  pageSettings={{
+                    backgroundColor: 'ffffff',
+                    hideEventTypeDetails: false,
+                    hideLandingPageDetails: false,
+                    primaryColor: '3b82f6',
+                    textColor: '1e293b'
+                  }}
+                />
+              </div>
+            </div>
+          ) : (
+            <div className="bg-white/80 backdrop-blur-xl rounded-2xl shadow-2xl p-8 border border-white/40">
+              <h2 className="text-2xl font-bold text-slate-900 mb-6">Request Your Medical Documentation</h2>
+              <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
                   <label htmlFor="formType" className="block text-sm font-medium text-slate-700 mb-2">
                     What service do you need? <span className="text-red-500">*</span>
@@ -177,7 +250,7 @@ const Forms = () => {
                     onChange={handleChange}
                     required
                     className="w-full px-4 py-3 border border-white/30 bg-white/50 backdrop-blur-sm rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-transparent transition-all text-slate-900 placeholder:text-slate-600"
-                    placeholder="(555) 123-4567"
+                    placeholder="+1 307 301-2019"
                   />
                 </div>
 
@@ -295,7 +368,8 @@ const Forms = () => {
                   )}
                 </button>
               </form>
-          </div>
+            </div>
+          )}
 
           {/* Success Modal */}
           <SuccessModal

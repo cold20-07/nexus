@@ -34,17 +34,17 @@ const Header = () => {
     }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className={`flex justify-between items-center transition-all duration-300 ${
-          scrolled ? 'h-16' : 'h-20'
+          scrolled ? 'h-20' : 'h-24'
         }`}>
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-3 group" data-testid="header-logo">
-            <Logo className={`transition-all duration-300 ${scrolled ? 'w-12 h-16' : 'w-16 h-20'}`} />
+          <Link to="/" className="flex items-center gap-4 group" data-testid="header-logo">
+            <Logo className={`transition-all duration-300 ${scrolled ? 'w-24 h-24' : 'w-32 h-32'}`} />
             <div>
               <div className={`font-bold text-slate-900 transition-all duration-300 ${
-                scrolled ? 'text-sm' : 'text-base'
+                scrolled ? 'text-base' : 'text-lg'
               }`}>Military Disability Nexus</div>
               {!scrolled && (
-                <div className="text-xs text-slate-500 transition-opacity duration-300">
+                <div className="text-sm text-slate-500 transition-opacity duration-300">
                   Clinician-led expert medical opinions for VA disability claims
                 </div>
               )}

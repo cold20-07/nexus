@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Upload, Send } from 'lucide-react';
 import { toast } from 'sonner';
 import { formSubmissionsApi, fileUploadApi } from '../../lib/api';
@@ -17,21 +17,52 @@ const QuickIntakeForm = ({ onSuccess }) => {
     fullName: '',
     email: '',
     phone: '',
-    formType: 'unsure',
+    formTypes: [], // Changed to array for multiple selections
     briefSummary: '',
     rushService: false,
   });
 
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [loading, setLoading] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const dropdownRef = useRef(null);
 
-  const selectedFormType = FORM_TYPES.find(ft => ft.value === formData.formType);
-  const requiresUpload = selectedFormType?.requiresUpload || false;
+  const requiresUpload = false; // Can be enabled if needed
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleFormTypeToggle = (value) => {
+    setFormData(prev => ({
+      ...prev,
+      formTypes: prev.formTypes.includes(value)
+        ? prev.formTypes.filter(t => t !== value)
+        : [...prev.formTypes, value]
+    }));
+  };
+
+  const getSelectedLabel = () => {
+    if (formData.formTypes.length === 0) return 'Select services...';
+    if (formData.formTypes.length === 1) {
+      return FORM_TYPES.find(t => t.value === formData.formTypes[0])?.label || 'Select services...';
+    }
+    return `${formData.formTypes.length} services selected`;
   };
 
   const handleFileSelect = (e) => {
@@ -50,12 +81,13 @@ const QuickIntakeForm = ({ onSuccess }) => {
     try {
       // Submit form
       const submission = await formSubmissionsApi.submit({
-        formType: formData.formType,
+        formType: formData.formTypes.length > 0 ? formData.formTypes[0] : 'unsure', // Use first selected or 'unsure'
         fullName: formData.fullName,
         email: formData.email,
         phone: formData.phone,
         formData: {
           briefSummary: formData.briefSummary,
+          selectedServices: formData.formTypes, // Store all selected services
         },
         requiresUpload,
       });
@@ -78,21 +110,18 @@ const QuickIntakeForm = ({ onSuccess }) => {
         fullName: '',
         email: '',
         phone: '',
-        formType: 'unsure',
+        formTypes: [],
         briefSummary: '',
         rushService: false,
       });
       setSelectedFiles([]);
+      setIsDropdownOpen(false);
     } catch (error) {
       console.error('Error submitting form:', error);
       toast.error('Failed to submit form. Please try again.');
     } finally {
       setLoading(false);
     }
-  };
-
-  const handleStartDiscovery = () => {
-    window.location.href = 'mailto:contact@militarydisabilitynexus.com?subject=Free Discovery Call';
   };
 
   return (
@@ -138,19 +167,45 @@ const QuickIntakeForm = ({ onSuccess }) => {
           />
         </div>
 
-        <div>
-          <select
-            name="formType"
-            value={formData.formType}
-            onChange={handleChange}
-            className="w-full px-4 py-2.5 rounded-lg border border-white/30 bg-white/50 backdrop-blur-sm focus:border-indigo-400 focus:ring-2 focus:ring-indigo-200/50 focus:outline-none text-sm text-slate-900"
+        {/* Custom Dropdown with Checkboxes */}
+        <div className="relative" ref={dropdownRef}>
+          <button
+            type="button"
+            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+            className="w-full px-4 py-2.5 rounded-lg border border-white/30 bg-white/50 backdrop-blur-sm focus:border-indigo-400 focus:ring-2 focus:ring-indigo-200/50 focus:outline-none text-sm text-slate-900 text-left flex items-center justify-between"
           >
-            {FORM_TYPES.map(type => (
-              <option key={type.value} value={type.value}>
-                {type.label}
-              </option>
-            ))}
-          </select>
+            <span className={formData.formTypes.length === 0 ? 'text-slate-600' : 'text-slate-900'}>
+              {getSelectedLabel()}
+            </span>
+            <svg
+              className={`w-4 h-4 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`}
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+
+          {isDropdownOpen && (
+            <div className="absolute z-10 w-full mt-1 bg-white rounded-lg shadow-lg border border-slate-200 max-h-60 overflow-y-auto">
+              {FORM_TYPES.map((type) => (
+                <label
+                  key={type.value}
+                  className="flex items-center px-4 py-2.5 hover:bg-indigo-50 cursor-pointer transition-colors"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <input
+                    type="checkbox"
+                    checked={formData.formTypes.includes(type.value)}
+                    onChange={() => handleFormTypeToggle(type.value)}
+                    className="w-4 h-4 text-indigo-600 border-slate-300 rounded focus:ring-indigo-500"
+                  />
+                  <span className="ml-3 text-sm text-slate-700">{type.label}</span>
+                </label>
+              ))}
+            </div>
+          )}
         </div>
 
         <div>
@@ -223,7 +278,7 @@ const QuickIntakeForm = ({ onSuccess }) => {
         <div className="pt-2">
           <button
             type="submit"
-            disabled={loading}
+            disabled={loading || formData.formTypes.length === 0}
             className="w-full bg-indigo-600 text-white px-6 py-3 rounded-lg font-semibold text-sm hover:bg-indigo-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
           >
             {loading ? (

@@ -8,15 +8,42 @@ import {
   LogOut,
   Menu,
   X,
-  ClipboardList
+  ClipboardList,
+  Users
 } from 'lucide-react';
 import { toast } from 'sonner';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const AdminLayout = ({ children }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isSuperAdmin, setIsSuperAdmin] = useState(false);
+
+  useEffect(() => {
+    checkUserRole();
+  }, []);
+
+  const checkUserRole = async () => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      const { data, error } = await supabase
+        .from('admin_users')
+        .select('role')
+        .eq('id', user.id)
+        .maybeSingle(); // Use maybeSingle instead of single to avoid errors
+
+      // Ignore errors - user might not be in admin_users table yet
+      if (data && data.role === 'super_admin') {
+        setIsSuperAdmin(true);
+      }
+    } catch (error) {
+      // Silently fail - user just won't see Admin Users link
+      console.log('Admin users table not accessible yet');
+    }
+  };
 
   const handleLogout = async () => {
     try {
@@ -35,6 +62,7 @@ const AdminLayout = ({ children }) => {
     { name: 'Form Submissions', href: '/admin/form-submissions', icon: ClipboardList },
     { name: 'Services', href: '/admin/services', icon: Briefcase },
     { name: 'Blog Posts', href: '/admin/blog', icon: FileText },
+    ...(isSuperAdmin ? [{ name: 'Admin Users', href: '/admin/users', icon: Users }] : []),
   ];
 
   const isActive = (path) => location.pathname === path;

@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Mail, Phone, Send, Upload } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Mail, Phone, Send, Upload, Calendar } from 'lucide-react';
 import { toast } from 'sonner';
 import { contactsApi } from '../lib/api';
 import FileUpload from '../components/FileUpload';
@@ -8,13 +9,22 @@ import SuccessModal from '../components/SuccessModal';
 import SEO from '../components/SEO';
 
 const Contact = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     phone: '',
-    subject: '',
+    serviceTypes: [], // Changed from subject to serviceTypes array
     message: '',
   });
+
+  const SERVICE_TYPES = [
+    { value: 'nexus_letter', label: 'Nexus Letter' },
+    { value: 'dbq', label: 'Disability Benefits Questionnaires (DBQs)' },
+    { value: '1151_claim', label: '1151 Claim (VA Medical Malpractice)' },
+    { value: 'aid_attendance', label: 'Aid & Attendance' },
+    { value: 'unsure', label: "I'm not sure what I need" },
+  ];
   const [loading, setLoading] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [contactId, setContactId] = useState(null);
@@ -28,6 +38,15 @@ const Contact = () => {
     });
   };
 
+  const handleServiceTypeToggle = (value) => {
+    setFormData(prev => ({
+      ...prev,
+      serviceTypes: prev.serviceTypes.includes(value)
+        ? prev.serviceTypes.filter(t => t !== value)
+        : [...prev.serviceTypes, value]
+    }));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -37,7 +56,7 @@ const Contact = () => {
       setContactId(response.id);
       setShowFileUpload(true);
       setShowSuccessModal(true);
-      setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
+      setFormData({ name: '', email: '', phone: '', serviceTypes: [], message: '' });
     } catch (error) {
       console.error('Error submitting form:', error);
       toast.error('Failed to send message. Please try again.');
@@ -120,6 +139,17 @@ const Contact = () => {
                   </div>
                 </div>
               </div>
+
+              {/* Schedule Call Button */}
+              <div className="mt-6 pt-6 border-t border-slate-200">
+                <button
+                  onClick={() => navigate('/forms?view=schedule')}
+                  className="w-full bg-gradient-to-br from-blue-500 to-indigo-600 text-white px-6 py-3 rounded-lg font-semibold hover:shadow-xl transition-all hover:scale-105 flex items-center justify-center space-x-2"
+                >
+                  <Calendar className="w-5 h-5" />
+                  <span>Schedule Discovery Call</span>
+                </button>
+              </div>
             </div>
           </div>
 
@@ -161,35 +191,44 @@ const Contact = () => {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                  <div>
-                    <label className="block text-sm font-semibold text-slate-700 mb-2">
-                      Phone
-                    </label>
-                    <input
-                      type="tel"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleChange}
-                      data-testid="contact-phone-input"
-                      className="w-full px-4 py-3 bg-white/60 backdrop-blur-sm border border-white/40 rounded-lg focus:border-indigo-500 focus:outline-none shadow-sm"
-                    />
-                  </div>
+                <div className="mb-6">
+                  <label className="block text-sm font-semibold text-slate-700 mb-2">
+                    Phone
+                  </label>
+                  <input
+                    type="tel"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    data-testid="contact-phone-input"
+                    className="w-full px-4 py-3 bg-white/60 backdrop-blur-sm border border-white/40 rounded-lg focus:border-indigo-500 focus:outline-none shadow-sm"
+                  />
+                </div>
 
-                  <div>
-                    <label className="block text-sm font-semibold text-slate-700 mb-2">
-                      Subject *
-                    </label>
-                    <input
-                      type="text"
-                      name="subject"
-                      value={formData.subject}
-                      onChange={handleChange}
-                      required
-                      data-testid="contact-subject-input"
-                      className="w-full px-4 py-3 bg-white/60 backdrop-blur-sm border border-white/40 rounded-lg focus:border-indigo-500 focus:outline-none shadow-sm"
-                    />
+                {/* Service Types - Multiple Selection */}
+                <div className="mb-6">
+                  <label className="block text-sm font-semibold text-slate-700 mb-3">
+                    What services are you interested in? * (Select all that apply)
+                  </label>
+                  <div className="space-y-2">
+                    {SERVICE_TYPES.map((type) => (
+                      <label
+                        key={type.value}
+                        className="flex items-center cursor-pointer p-3 bg-white/60 backdrop-blur-sm border border-white/40 rounded-lg hover:bg-blue-50/60 transition-colors"
+                      >
+                        <input
+                          type="checkbox"
+                          checked={formData.serviceTypes.includes(type.value)}
+                          onChange={() => handleServiceTypeToggle(type.value)}
+                          className="w-4 h-4 text-blue-600 border-slate-300 rounded focus:ring-blue-500"
+                        />
+                        <span className="ml-3 text-slate-700">{type.label}</span>
+                      </label>
+                    ))}
                   </div>
+                  {formData.serviceTypes.length === 0 && (
+                    <p className="text-sm text-slate-500 mt-2">Please select at least one service type</p>
+                  )}
                 </div>
 
                 <div className="mb-6">
@@ -209,7 +248,7 @@ const Contact = () => {
 
                 <button
                   type="submit"
-                  disabled={loading}
+                  disabled={loading || formData.serviceTypes.length === 0}
                   data-testid="contact-submit-button"
                   className="w-full bg-gradient-to-br from-blue-500 to-indigo-600 text-white px-8 py-4 rounded-full font-semibold hover:shadow-xl transition-all hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
                 >

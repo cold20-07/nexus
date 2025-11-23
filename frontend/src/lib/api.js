@@ -99,6 +99,13 @@ export const blogApi = {
 
 export const contactsApi = {
   async submit(contactData) {
+    // Convert serviceTypes array to a comma-separated string for subject
+    const subject = contactData.serviceTypes && contactData.serviceTypes.length > 0
+      ? contactData.serviceTypes.map(type => 
+          type.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())
+        ).join(', ')
+      : contactData.subject || 'General Inquiry';
+
     const { data, error } = await supabase
       .from('contacts')
       .insert([
@@ -106,9 +113,9 @@ export const contactsApi = {
           name: contactData.name,
           email: contactData.email,
           phone: contactData.phone || null,
-          subject: contactData.subject,
+          subject: subject,
           message: contactData.message,
-          service_interest: contactData.serviceInterest || contactData.service || null,
+          service_interest: contactData.serviceTypes ? contactData.serviceTypes.join(', ') : (contactData.serviceInterest || contactData.service || null),
           status: 'new',
         },
       ])

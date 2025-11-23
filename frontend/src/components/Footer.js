@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Twitter, Youtube, Instagram, Mail } from 'lucide-react';
+import { Twitter, Facebook, Instagram, Mail } from 'lucide-react';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -33,10 +33,10 @@ const Footer = () => {
               <a href="#" className="w-10 h-10 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/20 transition-all">
                 <Twitter className="w-5 h-5 text-white" />
               </a>
-              <a href="#" className="w-10 h-10 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/20 transition-all">
-                <Youtube className="w-5 h-5 text-white" />
+              <a href="https://www.facebook.com/share/1DXxUd6Q74/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/20 transition-all">
+                <Facebook className="w-5 h-5 text-white" />
               </a>
-              <a href="#" className="w-10 h-10 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/20 transition-all">
+              <a href="https://www.instagram.com/military_disability_nexus?igsh=MTFtMmtvODg3NmZlMA==&utm_source=ig_contact_invite" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/20 transition-all">
                 <Instagram className="w-5 h-5 text-white" />
               </a>
             </div>
@@ -125,8 +125,8 @@ const Footer = () => {
           "medicalSpecialty": "Veterans Medical Documentation",
           "sameAs": [
             "https://twitter.com/MilitaryDisabilityNexus",
-            "https://youtube.com/@MilitaryDisabilityNexus",
-            "https://instagram.com/MilitaryDisabilityNexus"
+            "https://www.facebook.com/share/1DXxUd6Q74/?mibextid=wwXIfr",
+            "https://www.instagram.com/military_disability_nexus?igsh=MTFtMmtvODg3NmZlMA==&utm_source=ig_contact_invite"
           ]
         })}
       </script>

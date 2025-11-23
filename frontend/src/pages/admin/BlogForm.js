@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { supabase } from '../../lib/supabase';
 import AdminLayout from '../../components/admin/AdminLayout';
+import ImageUpload from '../../components/admin/ImageUpload';
 import { Save, X } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -22,6 +23,8 @@ const BlogForm = () => {
     read_time: '5 min read',
     is_published: false,
     published_at: new Date().toISOString().split('T')[0],
+    featured_image: '',
+    featured_image_path: '',
   });
 
   const [tagInput, setTagInput] = useState('');
@@ -153,6 +156,15 @@ const BlogForm = () => {
     });
   };
 
+  // Handle featured image upload
+  const handleFeaturedImageUpload = (url, path) => {
+    setFormData({
+      ...formData,
+      featured_image: url || '',
+      featured_image_path: path || '',
+    });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -236,6 +248,15 @@ const BlogForm = () => {
                   className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 />
               </div>
+
+              {/* Featured Image Upload */}
+              <ImageUpload
+                onUploadComplete={handleFeaturedImageUpload}
+                existingImage={formData.featured_image}
+                existingPath={formData.featured_image_path}
+                folder="featured"
+                label="Featured Image"
+              />
 
               <div>
                 <label className="block text-sm font-semibold text-slate-700 mb-2">

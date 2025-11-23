@@ -261,7 +261,7 @@ const AidAttendanceForm = () => {
                   onChange={handleChange}
                   required
                   className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-indigo-500 focus:outline-none"
-                  placeholder="(555) 123-4567"
+                  placeholder="+1 307 301-2019"
                 />
               </div>
               
@@ -334,7 +334,7 @@ const AidAttendanceForm = () => {
                   value={formData.contactPhone}
                   onChange={handleChange}
                   className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-indigo-500 focus:outline-none"
-                  placeholder="(555) 123-4567"
+                  placeholder="+1 307 301-2019"
                 />
               </div>
               
@@ -430,7 +430,7 @@ const AidAttendanceForm = () => {
                     value={formData.physicianPhone}
                     onChange={handleChange}
                     className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-indigo-500 focus:outline-none"
-                    placeholder="(555) 123-4567"
+                    placeholder="+1 307 301-2019"
                   />
                 </div>
               </div>

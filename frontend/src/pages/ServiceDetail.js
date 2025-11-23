@@ -193,7 +193,15 @@ const ServiceDetail = () => {
                 </div>
               </div>
 
-              {service.slug === 'aid-attendance' ? (
+              {service.slug === 'claim-readiness-review' ? (
+                <Link
+                  to="/claim-readiness-review"
+                  data-testid="book-now-button"
+                  className="w-full bg-indigo-600 text-white px-6 py-4 rounded-full font-semibold text-center hover:bg-indigo-700 transition-all hover:shadow-lg block"
+                >
+                  Book Now - $225
+                </Link>
+              ) : service.slug === 'aid-attendance' ? (
                 <div className="space-y-3">
                   <Link
                     to="/aid-attendance-form"
@@ -216,16 +224,18 @@ const ServiceDetail = () => {
                   data-testid="book-now-button"
                   className="w-full bg-indigo-600 text-white px-6 py-4 rounded-full font-semibold text-center hover:bg-indigo-700 transition-all hover:shadow-lg block"
                 >
-                  Book Now
+                  Get a Free Consultation
                 </Link>
               )}
 
-              <p className="text-sm text-slate-500 mt-4 text-center">
-                {service.slug === 'aid-attendance' 
-                  ? 'Complete our specialized form for faster processing'
-                  : 'Get a free consultation before booking'
-                }
-              </p>
+              {(service.slug === 'claim-readiness-review' || service.slug === 'aid-attendance') && (
+                <p className="text-sm text-slate-500 mt-4 text-center">
+                  {service.slug === 'claim-readiness-review'
+                    ? 'Pay now and get your comprehensive review in 5-7 days'
+                    : 'Complete our specialized form for faster processing'
+                  }
+                </p>
+              )}
             </div>
           </div>
         </div>

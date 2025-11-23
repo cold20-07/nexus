@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Search, Clock, ArrowRight } from 'lucide-react';
 import { blogApi } from '../lib/api';
 import SEO from '../components/SEO';
+import OptimizedImage from '../components/OptimizedImage';
 
 const Blog = () => {
   const [posts, setPosts] = useState([]);
@@ -130,7 +131,15 @@ const Blog = () => {
                 data-testid={`blog-post-${post.slug}`}
                 className="group bg-white/80 backdrop-blur-xl rounded-2xl overflow-hidden border border-white/40 shadow-xl hover:shadow-2xl transition-all transform hover:-translate-y-1 hover:scale-105"
               >
-                <div className="h-48 bg-gradient-to-br from-blue-500 to-indigo-600" />
+                {post.featured_image ? (
+                  <OptimizedImage
+                    src={post.featured_image}
+                    alt={post.title}
+                    className="h-48 w-full object-cover"
+                  />
+                ) : (
+                  <div className="h-48 bg-gradient-to-br from-blue-500 to-indigo-600" />
+                )}
                 <div className="p-6">
                   <div className="flex items-center justify-between mb-3">
                     <span className="text-xs text-indigo-600 font-semibold uppercase">{post.category}</span>

@@ -1,37 +1,58 @@
+import { lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { Toaster } from 'sonner';
+
+// Eager load critical components (above the fold)
 import Home from './pages/Home';
-import Services from './pages/Services';
-import ServiceDetail from './pages/ServiceDetail';
-import Blog from './pages/Blog';
-import BlogPost from './pages/BlogPost';
-import About from './pages/About';
-import Contact from './pages/Contact';
-import Forms from './pages/Forms';
-import AidAttendanceForm from './pages/AidAttendanceForm';
-import IntakeForm from './pages/IntakeForm';
 import Layout from './components/Layout';
 
-// Admin imports
-import AdminLogin from './pages/admin/Login';
-import AdminDashboard from './pages/admin/Dashboard';
-import AdminContacts from './pages/admin/Contacts';
-import AdminFormSubmissions from './pages/admin/FormSubmissions';
-import AdminServices from './pages/admin/Services';
-import AdminBlog from './pages/admin/Blog';
-import AdminServiceForm from './pages/admin/ServiceForm';
-import AdminBlogForm from './pages/admin/BlogForm';
-import ProtectedRoute from './components/admin/ProtectedRoute';
+// Lazy load non-critical routes
+const Services = lazy(() => import('./pages/Services'));
+const ServiceDetail = lazy(() => import('./pages/ServiceDetail'));
+const Blog = lazy(() => import('./pages/Blog'));
+const BlogPost = lazy(() => import('./pages/BlogPost'));
+const About = lazy(() => import('./pages/About'));
+const Contact = lazy(() => import('./pages/Contact'));
+const Forms = lazy(() => import('./pages/Forms'));
+const AidAttendanceForm = lazy(() => import('./pages/AidAttendanceForm'));
+const IntakeForm = lazy(() => import('./pages/IntakeForm'));
+const PaymentSuccess = lazy(() => import('./pages/PaymentSuccess'));
+const PaymentCanceled = lazy(() => import('./pages/PaymentCanceled'));
+const TestPayment = lazy(() => import('./pages/TestPayment'));
+const ClaimReadinessReview = lazy(() => import('./pages/ClaimReadinessReview'));
+
+// Lazy load admin panel (separate chunk)
+const AdminLogin = lazy(() => import('./pages/admin/Login'));
+const AdminDashboard = lazy(() => import('./pages/admin/Dashboard'));
+const AdminContacts = lazy(() => import('./pages/admin/Contacts'));
+const AdminFormSubmissions = lazy(() => import('./pages/admin/FormSubmissions'));
+const AdminServices = lazy(() => import('./pages/admin/Services'));
+const AdminBlog = lazy(() => import('./pages/admin/Blog'));
+const AdminServiceForm = lazy(() => import('./pages/admin/ServiceForm'));
+const AdminBlogForm = lazy(() => import('./pages/admin/BlogForm'));
+const AdminUsers = lazy(() => import('./pages/admin/AdminUsers'));
+const ProtectedRoute = lazy(() => import('./components/admin/ProtectedRoute'));
 
 import './App.css';
+
+// Loading component
+const PageLoader = () => (
+  <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-indigo-50 to-emerald-50">
+    <div className="text-center">
+      <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-indigo-600 mx-auto mb-4"></div>
+      <p className="text-slate-600 font-medium">Loading...</p>
+    </div>
+  </div>
+);
 
 function App() {
   return (
     <HelmetProvider>
       <BrowserRouter>
         <Toaster position="top-right" richColors />
-        <Routes>
+        <Suspense fallback={<PageLoader />}>
+          <Routes>
         {/* Public Routes */}
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
@@ -44,6 +65,10 @@ function App() {
           <Route path="forms" element={<Forms />} />
           <Route path="intake" element={<IntakeForm />} />
           <Route path="aid-attendance-form" element={<AidAttendanceForm />} />
+          <Route path="payment/success" element={<PaymentSuccess />} />
+          <Route path="payment/canceled" element={<PaymentCanceled />} />
+          <Route path="test-payment" element={<TestPayment />} />
+          <Route path="claim-readiness-review" element={<ClaimReadinessReview />} />
         </Route>
 
         {/* Admin Routes */}
@@ -113,6 +138,14 @@ function App() {
           }
         />
         <Route
+          path="/admin/users"
+          element={
+            <ProtectedRoute>
+              <AdminUsers />
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path="/admin/blog/edit/:id"
           element={
             <ProtectedRoute>
@@ -120,7 +153,8 @@ function App() {
             </ProtectedRoute>
           }
         />
-        </Routes>
+          </Routes>
+        </Suspense>
       </BrowserRouter>
     </HelmetProvider>
   );
